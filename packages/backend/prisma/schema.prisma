@@ -1,0 +1,204 @@
+// LocalRank Feedback - Prisma Schema (Fase 1 MVP)
+// Database: PostgreSQL with multi-tenant design (shared schema + account_id)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ACCOUNTS & ORGANIZATIONAL STRUCTURE
+// ============================================
+
+model Account {
+  id        String   @id @default(uuid())
+  name      String
+  type      String   @default("business") // 'business' | 'agency'
+  email     String   @unique
+  phone     String?
+  plan      String   @default("basic") // 'basic' | 'advanced' | 'agency'
+  settings  Json     @default("{}")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  users     User[]
+  locations Location[]
+
+  @@map("accounts")
+}
+
+model Location {
+  id              String   @id @default(uuid())
+  accountId       String   @map("account_id")
+  name            String
+  address         String?
+  phone           String?
+  googlePlaceId   String?  @map("google_place_id")
+  googleReviewUrl String?  @map("google_review_url")
+  feedbackSlug    String   @unique @map("feedback_slug")
+  branding        Json     @default("{}") // logo, colors, texts
+  settings        Json     @default("{}") // thresholds, notifications config
+  active          Boolean  @default(true)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  account         Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  contacts        Contact[]
+  visits          Visit[]
+  feedback        Feedback[]
+  internalTickets InternalTicket[]
+
+  @@index([accountId])
+  @@map("locations")
+}
+
+// ============================================
+// USERS (Panel access)
+// ============================================
+
+model User {
+  id           String    @id @default(uuid())
+  accountId    String    @map("account_id")
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  name         String
+  role         String    @default("admin") // 'owner' | 'admin' | 'staff' | 'viewer'
+  locationIds  String[]  @default([]) @map("location_ids") // assigned locations (empty = all)
+  active       Boolean   @default(true)
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  account          Account          @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  assignedTickets  InternalTicket[] @relation("AssignedTickets")
+
+  @@index([accountId])
+  @@map("users")
+}
+
+// ============================================
+// CONTACTS & CONSENTS
+// ============================================
+
+model Contact {
+  id        String   @id @default(uuid())
+  locationId String  @map("location_id")
+  name      String?
+  email     String?
+  phone     String?
+  whatsapp  String?
+  source    String   @default("feedback") // 'feedback' | 'import' | 'referral' | 'manual'
+  tags      String[] @default([])
+  metadata  Json     @default("{}")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  location  Location   @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  consents  Consent[]
+  visits    Visit[]
+  feedback  Feedback[]
+
+  @@unique([locationId, email], name: "locationId_email")
+  @@index([locationId])
+  @@index([locationId, phone])
+  @@map("contacts")
+}
+
+model Consent {
+  id            String    @id @default(uuid())
+  contactId     String    @map("contact_id")
+  channel       String    // 'email' | 'sms' | 'whatsapp' | 'push'
+  granted       Boolean
+  ipAddress     String?   @map("ip_address")
+  userAgent     String?   @map("user_agent")
+  policyVersion String    @default("1.0") @map("policy_version")
+  grantedAt     DateTime  @default(now()) @map("granted_at")
+  revokedAt     DateTime? @map("revoked_at")
+
+  // Relations
+  contact Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@index([contactId])
+  @@index([contactId, channel])
+  @@map("consents")
+}
+
+// ============================================
+// VISITS & FEEDBACK
+// ============================================
+
+model Visit {
+  id         String   @id @default(uuid())
+  locationId String   @map("location_id")
+  contactId  String?  @map("contact_id")
+  visitDate  DateTime @default(now()) @map("visit_date") @db.Date
+  source     String   @default("manual") // 'manual' | 'api' | 'import'
+  metadata   Json     @default("{}")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  // Relations
+  location Location  @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  contact  Contact?  @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  feedback Feedback[]
+
+  @@index([locationId, visitDate(sort: Desc)])
+  @@map("visits")
+}
+
+model Feedback {
+  id               String   @id @default(uuid())
+  locationId       String   @map("location_id")
+  contactId        String?  @map("contact_id")
+  visitId          String?  @map("visit_id")
+  rating           Int      // 1-5
+  comment          String?
+  directedToGoogle Boolean  @default(false) @map("directed_to_google")
+  ipAddress        String?  @map("ip_address")
+  userAgent        String?  @map("user_agent")
+  metadata         Json     @default("{}")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  // Relations
+  location        Location         @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  contact         Contact?         @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  visit           Visit?           @relation(fields: [visitId], references: [id], onDelete: SetNull)
+  internalTickets InternalTicket[]
+
+  @@index([locationId, createdAt(sort: Desc)])
+  @@index([locationId, rating])
+  @@index([contactId])
+  @@map("feedback")
+}
+
+// ============================================
+// INTERNAL TICKETS (from negative feedback)
+// ============================================
+
+model InternalTicket {
+  id         String    @id @default(uuid())
+  locationId String    @map("location_id")
+  feedbackId String    @map("feedback_id")
+  status     String    @default("open") // 'open' | 'in_progress' | 'resolved' | 'dismissed'
+  assignedTo String?   @map("assigned_to")
+  notes      String?
+  resolvedAt DateTime? @map("resolved_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  feedback Feedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
+  assignee User?    @relation("AssignedTickets", fields: [assignedTo], references: [id], onDelete: SetNull)
+
+  @@index([locationId, status])
+  @@index([status, createdAt(sort: Desc)])
+  @@map("internal_tickets")
+}
