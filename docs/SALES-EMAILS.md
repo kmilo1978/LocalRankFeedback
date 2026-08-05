@@ -13,7 +13,7 @@ Contactar negocios locales que NO conocen LocalRank. Generar curiosidad y agenda
 ### Criterios del prospecto
 - Tiene perfil de Google Maps activo
 - Rating actual entre 3.5 y 4.5 (hay espacio de mejora)
-- Menos de 50 resenas (oportunidad de crecimiento)
+- Menos de 50 reseñas (oportunidad de crecimiento)
 - Industria: clinica dental, fisio, estetica, gym
 
 ---
@@ -26,13 +26,13 @@ Contactar negocios locales que NO conocen LocalRank. Generar curiosidad y agenda
 
 Hola {nombre_contacto},
 
-Vi el perfil de {nombre_negocio} en Google Maps. Tienen {numero_resenas} resenas con un rating de {rating_actual}.
+Vi el perfil de {nombre_negocio} en Google Maps. Tienen {numero_reseñas} reseñas con un rating de {rating_actual}.
 
-Lo que me llamo la atencion es que varias de sus resenas de 5 estrellas mencionan la calidad del servicio. Tienen pacientes que los aman, pero no todos estan dejando resena.
+Lo que me llamo la atencion es que varias de sus reseñas de 5 estrellas mencionan la calidad del servicio. Tienen pacientes que los aman, pero no todos estan dejando reseña.
 
-Trabajo con clinicas y centros como el suyo para hacer algo simple: que cada paciente satisfecho deje su resena en Google automaticamente, y que los insatisfechos les lleguen a ustedes por WhatsApp antes de publicar algo negativo.
+Trabajo con clinicas y centros como el suyo para hacer algo simple: que cada paciente satisfecho deje su reseña en Google automaticamente, y que los insatisfechos les lleguen a ustedes por WhatsApp antes de publicar algo negativo.
 
-El resultado promedio: de {rating_actual} a 4.7+ en 60 dias, con 3x mas resenas.
+El resultado promedio: de {rating_actual} a 4.7+ en 60 dias, con 3x mas reseñas.
 
 Les interesaria ver como funciona en 10 minutos? Puedo mostrarles una demo con el nombre de su clinica.
 
@@ -64,17 +64,17 @@ Puedo enviarles un video de 2 minutos mostrando como funciona con su negocio?
 
 ### Email 3 — Dia 7 (Valor + Urgencia suave)
 
-**Asunto:** Dato rapido sobre sus resenas en Google
+**Asunto:** Dato rapido sobre sus reseñas en Google
 
 **Cuerpo:**
 
 Hola {nombre_contacto},
 
-Un dato que les puede interesar: analice las ultimas 10 resenas de {nombre_negocio} y encontre que:
+Un dato que les puede interesar: analice las ultimas 10 reseñas de {nombre_negocio} y encontre que:
 
 - 6 de 10 son de 5 estrellas (su servicio ES bueno)
-- Pero tienen {X} resenas de 1-2 estrellas que probablemente pudieron evitarse
-- Con esas resenas negativas, estan perdiendo aprox. {estimado} pacientes nuevos al mes que eligen competidores con mejor rating
+- Pero tienen {X} reseñas de 1-2 estrellas que probablemente pudieron evitarse
+- Con esas reseñas negativas, estan perdiendo aprox. {estimado} pacientes nuevos al mes que eligen competidores con mejor rating
 
 La buena noticia: esto tiene solucion rapida y automatica.
 
@@ -102,7 +102,7 @@ Solo queria dejar esto por aqui: tienen un link de prueba gratuita que no expira
 
 Configura en 5 minutos. Genera un QR. Y empiezan a recibir feedback de pacientes desde el primer dia.
 
-Les deseo el mejor exito con {nombre_negocio}. Si algun dia quieren mejorar sus resenas en Google, aqui estamos.
+Les deseo el mejor exito con {nombre_negocio}. Si algun dia quieren mejorar sus reseñas en Google, aqui estamos.
 
 {tu_nombre}
 
@@ -121,9 +121,9 @@ Contactar al dueno/admin del negocio por WhatsApp (numero publico en Google Maps
 
 Hola! Vi {nombre_negocio} en Google Maps y me parecio interesante.
 
-Trabajo con clinicas/negocios como el suyo ayudandoles a conseguir mas resenas de 5 estrellas de forma automatica.
+Trabajo con clinicas/negocios como el suyo ayudandoles a conseguir mas reseñas de 5 estrellas de forma automatica.
 
-La idea es simple: despues de cada visita, el paciente califica. Si esta contento, va directo a dejar resena en Google. Si no, les llega a ustedes por WhatsApp para que lo resuelvan.
+La idea es simple: despues de cada visita, el paciente califica. Si esta contento, va directo a dejar reseña en Google. Si no, les llega a ustedes por WhatsApp para que lo resuelvan.
 
 Les interesaria ver como funciona? Puedo enviar un video de 2 min o hacemos una llamada rapida de 10 min.
 
@@ -143,9 +143,9 @@ Les interesa? Les puedo compartir un demo gratis.
 
 ### Mensaje 3 — Dia 5 (Aportar valor)
 
-Les comparto este dato: un negocio local con 4.7+ estrellas y 50+ resenas recibe hasta 3x mas llamadas que uno con 4.0.
+Les comparto este dato: un negocio local con 4.7+ estrellas y 50+ reseñas recibe hasta 3x mas llamadas que uno con 4.0.
 
-Vi que {nombre_negocio} tiene {numero_resenas} resenas. Con una herramienta automatica podrian triplicar eso en 60 dias.
+Vi que {nombre_negocio} tiene {numero_reseñas} reseñas. Con una herramienta automatica podrian triplicar eso en 60 dias.
 
 Si algun dia quieren probarlo: [link] (es gratis por 14 dias, sin tarjeta).
 
@@ -158,7 +158,7 @@ Exitos!
 ## SECUENCIA 3: DM Instagram (Para negocios con presencia social)
 
 ### Objetivo
-Contactar negocios que publican en Instagram pero no gestionan sus resenas en Google.
+Contactar negocios que publican en Instagram pero no gestionan sus reseñas en Google.
 
 ---
 
@@ -166,7 +166,7 @@ Contactar negocios que publican en Instagram pero no gestionan sus resenas en Go
 
 Hola! 👋 Me encanta el contenido que publican.
 
-Vi su Google Maps y creo que tienen una oportunidad enorme: su servicio es claramente bueno (lo veo en las fotos) pero tienen pocas resenas en Google.
+Vi su Google Maps y creo que tienen una oportunidad enorme: su servicio es claramente bueno (lo veo en las fotos) pero tienen pocas reseñas en Google.
 
 Trabajo con negocios como el suyo para automatizar eso. Despues de cada cita, el cliente califica. Los de 4-5 estrellas van directo a Google. Simple.
 
@@ -176,7 +176,7 @@ Les interesaria saber mas? Es gratis probar.
 
 ### DM 2 — Dia 3 (Si vio pero no respondio)
 
-Sin presion! Solo queria compartir esto: negocios similares al suyo que usan nuestro sistema pasan de 15 a 50+ resenas en Google en 2 meses.
+Sin presion! Solo queria compartir esto: negocios similares al suyo que usan nuestro sistema pasan de 15 a 50+ reseñas en Google en 2 meses.
 
 Si algun dia les interesa, me escriben. Les dejo el link por si acaso: [link]
 
@@ -204,7 +204,7 @@ Se que tu agencia trabaja con negocios locales como clinicas, gimnasios y centro
 Te escribo porque tenemos una herramienta whitelabel que puedes ofrecer a tus clientes como servicio de gestion de reputacion:
 
 - Se configura en 5 minutos por cliente
-- Automatiza la captura de resenas en Google
+- Automatiza la captura de reseñas en Google
 - Alerta por WhatsApp cuando hay feedback negativo
 - Incluye panel multi-cliente para que gestiones todo desde un solo lugar
 
@@ -280,7 +280,7 @@ Cualquier duda, me escribes por aqui o por WhatsApp: [numero]
 
 ### Email 2 — Dia 5 post-demo
 
-**Asunto:** Como van las primeras resenas?
+**Asunto:** Como van las primeras reseñas?
 
 **Cuerpo:**
 
@@ -325,10 +325,10 @@ Y si decides no continuar, no pasa nada. Tu QR seguira activo 7 dias mas para qu
 Claro! LocalRank es una herramienta que te ayuda a:
 
 1. Recibir feedback de tus clientes al salir (via QR o link)
-2. Los que estan contentos → van directo a dejarte resena en Google
+2. Los que estan contentos → van directo a dejarte reseña en Google
 3. Los que no → te llega un WhatsApp para que los contactes y resuelvas
 
-Resultado: mas resenas de 5 estrellas + menos resenas negativas + mas pacientes nuevos.
+Resultado: mas reseñas de 5 estrellas + menos reseñas negativas + mas pacientes nuevos.
 
 Se configura en 5 min y lo puedes probar gratis 14 dias. Te interesa?
 

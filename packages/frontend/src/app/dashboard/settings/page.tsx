@@ -313,7 +313,7 @@ export default function SettingsPage() {
           <p className="mb-5 text-sm text-gray-600">
             Cuando un cliente califica con 1-3 estrellas, el sistema envia una alerta inmediata 
             a los canales que configures aqui. Asi puedes contactar al cliente rapidamente y 
-            resolver su inquietud antes de que publique una resena negativa.
+            resolver su inquietud antes de que publique una reseña negativa.
           </p>
 
           {/* WhatsApp */}
@@ -456,7 +456,7 @@ export default function SettingsPage() {
         <div className="rounded-lg border bg-white p-6 shadow-sm">
           <h2 className="mb-2 text-lg font-semibold text-gray-900">Google Business Profile</h2>
           <p className="mb-4 text-sm text-gray-600">
-            Conecta tu cuenta de Google para sincronizar resenas y activar respuestas automaticas con IA.
+            Conecta tu cuenta de Google para sincronizar reseñas y activar respuestas automaticas con IA.
           </p>
           <button
             className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"

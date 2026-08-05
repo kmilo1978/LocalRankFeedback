@@ -80,8 +80,8 @@ PATCH  /locations/:id/tickets/:tid     → Actualizar ticket (status, notes, ass
 POST   /locations/:id/gmb/connect      → Iniciar OAuth con Google
 GET    /locations/:id/gmb/callback     → Callback OAuth
 DELETE /locations/:id/gmb/disconnect   → Desconectar GMB
-GET    /locations/:id/reviews          → Listar resenas de Google
-GET    /locations/:id/reviews/:rid     → Detalle de resena
+GET    /locations/:id/reviews          → Listar reseñas de Google
+GET    /locations/:id/reviews/:rid     → Detalle de reseña
 POST   /locations/:id/reviews/:rid/respond   → Publicar respuesta (manual o aprobar borrador IA)
 POST   /locations/:id/reviews/:rid/generate  → Generar respuesta IA (borrador)
 POST   /locations/:id/reviews/sync     → Forzar sincronizacion manual
@@ -145,7 +145,7 @@ GET    /locations/:id/notifications/stats → Metricas (entregados, abiertos, cl
 ```
 GET  /locations/:id/analytics/overview    → Metricas principales (NPS, reviews, referidos)
 GET  /locations/:id/analytics/feedback    → Tendencias de feedback
-GET  /locations/:id/analytics/reviews     → Tendencias de resenas Google
+GET  /locations/:id/analytics/reviews     → Tendencias de reseñas Google
 GET  /locations/:id/analytics/referrals   → Metricas del programa de referidos
 GET  /locations/:id/analytics/channels    → Performance por canal de comunicacion
 GET  /account/analytics/overview          → Vista agregada multi-sede

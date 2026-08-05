@@ -9,7 +9,7 @@
 
 **LocalRank Feedback**
 
-*Convierte cada visita en resenas de 5 estrellas*
+*Convierte cada visita en reseñas de 5 estrellas*
 
 Plataforma SaaS de reputacion online para negocios locales.
 
@@ -22,12 +22,12 @@ Web: localrankfeedback.com
 
 **Los negocios locales pierden clientes por su reputacion online**
 
-- El 93% de consumidores leen resenas antes de visitar un negocio local
+- El 93% de consumidores leen reseñas antes de visitar un negocio local
 - Un negocio con menos de 4 estrellas pierde hasta el 70% de potenciales clientes
-- 1 resena negativa sin respuesta equivale a perder 30 clientes potenciales
+- 1 reseña negativa sin respuesta equivale a perder 30 clientes potenciales
 - Los negocios no tienen forma de interceptar insatisfaccion antes de que sea publica
 
-**Resultado:** Clinicas, fisios, dentistas y gimnasios pierden miles de dolares al mes por resenas que pudieron evitarse con una llamada a tiempo.
+**Resultado:** Clinicas, fisios, dentistas y gimnasios pierden miles de dolares al mes por reseñas que pudieron evitarse con una llamada a tiempo.
 
 ---
 
@@ -36,10 +36,10 @@ Web: localrankfeedback.com
 **Un flujo post-visita que protege y potencia tu reputacion**
 
 1. El cliente sale y califica su experiencia (link, QR, SMS)
-2. Si esta satisfecho (4-5 ⭐) → lo dirigimos a Google para dejar resena publica
+2. Si esta satisfecho (4-5 ⭐) → lo dirigimos a Google para dejar reseña publica
 3. Si esta insatisfecho (1-3 ⭐) → capturamos privado + alerta inmediata al dueno por WhatsApp
 
-**Resultado:** Mas resenas positivas, menos negativas, y la capacidad de recuperar clientes insatisfechos ANTES de que publiquen.
+**Resultado:** Mas reseñas positivas, menos negativas, y la capacidad de recuperar clientes insatisfechos ANTES de que publiquen.
 
 ---
 
@@ -52,7 +52,7 @@ Web: localrankfeedback.com
 | Feedback Post-Visita | Captura satisfaccion con formulario personalizable |
 | Review Gate | Filtra: positivos a Google, negativos en privado |
 | Alertas WhatsApp/Email | Notifica al dueno inmediatamente en feedback negativo |
-| Respuestas IA | Responde automaticamente resenas de Google con el tono de la marca |
+| Respuestas IA | Responde automaticamente reseñas de Google con el tono de la marca |
 | Referidos | Convierte clientes satisfechos en embajadores |
 | Remarketing | Captura datos con consentimiento para WhatsApp y Google Ads |
 | Panel Multi-Sede | Dashboard con NPS, trends, tickets y metricas |
@@ -76,7 +76,7 @@ Califica 1-5 estrellas
     │                        │
     ↓                        ↓
 Google Reviews         WhatsApp al dueno
-(resena publica)      (alerta privada)
+(reseña publica)      (alerta privada)
     │                        │
     ↓                        ↓
 Rating sube            Dueno contacta
@@ -162,7 +162,7 @@ Rating sube            Dueno contacta
 | Trustmary | Reviews + NPS | Enfocado en B2B/SaaS, no negocios locales. |
 | Birdeye | Reputacion enterprise | Precio minimo $300/mes. Complejo. No LATAM. |
 | Podium | Messaging + reviews | Enterprise, +$400/mes. No disponible en LATAM. |
-| Grade.us | White-label reviews | Solo resenas, no feedback ni referidos. |
+| Grade.us | White-label reviews | Solo reseñas, no feedback ni referidos. |
 
 **Nuestro diferencial:**
 1. **Review Gate + Alertas WhatsApp** — Nadie combina filtro inteligente + notificacion instantanea
@@ -189,7 +189,7 @@ Rating sube            Dueno contacta
 **Canal 3: Contenido + SEO**
 - Blog: "Como mejorar tu rating en Google Maps"
 - YouTube: Tutoriales para negocios locales
-- Google Ads: Keywords de intencion ("mejorar resenas Google negocio")
+- Google Ads: Keywords de intencion ("mejorar reseñas Google negocio")
 
 **Canal 4: Referidos propios**
 - Negocios que usan LocalRank refieren a otros negocios
@@ -268,7 +268,7 @@ Rating sube            Dueno contacta
 
 **LocalRank Feedback**
 
-*Protege tu reputacion. Multiplica tus resenas. Recupera clientes insatisfechos.*
+*Protege tu reputacion. Multiplica tus reseñas. Recupera clientes insatisfechos.*
 
 - MVP funcional y listo para escalar
 - Mercado de $80M+ en Colombia

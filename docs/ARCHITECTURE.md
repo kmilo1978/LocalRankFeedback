@@ -95,7 +95,7 @@ Todas las operaciones que involucran APIs externas o logica diferida se procesan
 | Cola | Responsabilidad | Prioridad |
 |------|----------------|-----------|
 | `feedback.process` | Procesar feedback recibido, decidir flujo (review gate vs ticket) | Alta |
-| `reviews.sync` | Sincronizar resenas desde Google Business Profile | Media |
+| `reviews.sync` | Sincronizar reseñas desde Google Business Profile | Media |
 | `reviews.respond` | Generar y publicar respuestas IA | Media |
 | `notifications.whatsapp` | Enviar mensajes por WhatsApp | Alta |
 | `notifications.sms` | Enviar SMS | Alta |
@@ -138,16 +138,16 @@ enum SystemEvent {
 **Flujo de conexion:**
 1. Negocio inicia OAuth 2.0 desde el panel
 2. Se almacena refresh_token encriptado en BD
-3. Worker sincroniza resenas cada 15-30 minutos (polling)
-4. Nuevas resenas disparan evento `review.new`
+3. Worker sincroniza reseñas cada 15-30 minutos (polling)
+4. Nuevas reseñas disparan evento `review.new`
 
 **Limites conocidos:**
 - Google BPI tiene rate limits estrictos (~60 requests/min por proyecto)
 - Se requiere verificacion de app para acceso a produccion
-- Solo cuentas verificadas en GMB pueden responder resenas
+- Solo cuentas verificadas en GMB pueden responder reseñas
 
 **Mitigacion:**
-- Cache de resenas en BD local (evitar re-lecturas)
+- Cache de reseñas en BD local (evitar re-lecturas)
 - Cola con rate limiting global por proyecto Google
 - Retry con backoff exponencial en 429/503
 
@@ -176,7 +176,7 @@ enum SystemEvent {
 │         AI Response Engine              │
 ├────────────────────────────────────────┤
 │  1. Cargar plantilla de prompt (BD)    │
-│  2. Inyectar contexto: resena, marca   │
+│  2. Inyectar contexto: reseña, marca   │
 │  3. Llamar LLM API                     │
 │  4. Validar respuesta (largo, tono)    │
 │  5. Si auto-approve → publicar         │
@@ -186,7 +186,7 @@ enum SystemEvent {
 
 **Plantillas por cuenta:**
 - Prompt base con tono de marca, valores, politicas
-- Variables dinamicas: nombre_cliente, rating, texto_resena, nombre_sede
+- Variables dinamicas: nombre_cliente, rating, texto_reseña, nombre_sede
 - Reglas de negocio: largo maximo, palabras prohibidas, disclaimers
 
 **Fallbacks:**
@@ -214,7 +214,7 @@ consents          -- Registro de consentimientos por canal y timestamp
 visits            -- Registro de visitas (disparador del flujo)
 feedback          -- Respuestas de encuesta (rating + comentario)
 internal_tickets  -- Tickets generados por feedback negativo
-gmb_reviews       -- Cache de resenas de Google
+gmb_reviews       -- Cache de reseñas de Google
 gmb_responses     -- Respuestas generadas (borradores y publicadas)
 
 -- Referidos
@@ -306,7 +306,7 @@ Public links:     60 req/min por IP
 
 | Riesgo | Impacto | Mitigacion |
 |--------|---------|-----------|
-| Google BPI rate limits | No poder sincronizar resenas a tiempo | Cache local + polling inteligente con prioridad por actividad |
+| Google BPI rate limits | No poder sincronizar reseñas a tiempo | Cache local + polling inteligente con prioridad por actividad |
 | Aprobacion de app Google | Bloqueo del lanzamiento | Iniciar proceso de verificacion en paralelo al desarrollo |
 | Rechazo de templates WhatsApp | No poder enviar mensajes proactivos | Preparar multiples variantes, seguir guidelines de Meta |
 | Costos de LLM escalan | Margen reducido en plan basico | Caching de respuestas similares, modelos mas baratos para positivas |

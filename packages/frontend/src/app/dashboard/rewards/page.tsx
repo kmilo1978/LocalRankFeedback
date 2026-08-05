@@ -7,7 +7,7 @@ export default function RewardsPage() {
 
   const mockConfig = {
     rewardTitle: 'Cafe gratis',
-    rewardDescription: 'Disfruta un cafe gratis en tu proxima visita como agradecimiento por tu resena',
+    rewardDescription: 'Disfruta un cafe gratis en tu proxima visita como agradecimiento por tu reseña',
     delayMinutes: 15,
     channel: 'whatsapp',
     expirationDays: 14,
@@ -80,7 +80,7 @@ export default function RewardsPage() {
           </div>
           <div>
             <p className="text-xs text-gray-500">Se envia</p>
-            <p className="text-sm font-medium text-gray-900">{mockConfig.delayMinutes} min despues de la resena</p>
+            <p className="text-sm font-medium text-gray-900">{mockConfig.delayMinutes} min despues de la reseña</p>
           </div>
           <div>
             <p className="text-xs text-gray-500">Canal</p>

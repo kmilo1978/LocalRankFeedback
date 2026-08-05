@@ -9,8 +9,8 @@
 LocalRank Feedback es un sistema integrado disenado para negocios locales (clinicas, fisioterapeutas, odontologos, estetica, gimnasios, etc.) que unifica en un solo flujo:
 
 - Captura de feedback post-visita
-- Gestion inteligente de resenas en Google Maps (GMB)
-- Auto-respuesta con IA a resenas publicas
+- Gestion inteligente de reseñas en Google Maps (GMB)
+- Auto-respuesta con IA a reseñas publicas
 - Captura de datos para remarketing omnicanal
 - Programa de referidos automatizado
 - Automatizacion omnicanal (SMS, WhatsApp, Push, Email)
@@ -22,7 +22,7 @@ LocalRank Feedback es un sistema integrado disenado para negocios locales (clini
 
 Los negocios locales enfrentan multiples desafios simultaneamente:
 
-1. **Reputacion online dispersa**: No tienen control sobre lo que se publica en Google y reaccionan tarde a resenas negativas.
+1. **Reputacion online dispersa**: No tienen control sobre lo que se publica en Google y reaccionan tarde a reseñas negativas.
 2. **Feedback interno inexistente**: No capturan la insatisfaccion antes de que se vuelva publica.
 3. **Canales de comunicacion fragmentados**: Usan multiples herramientas sin integracion para SMS, WhatsApp, email.
 4. **Crecimiento por referidos desaprovechado**: No tienen mecanismos sistematicos para incentivar la recomendacion boca a boca.
@@ -38,15 +38,15 @@ Los negocios locales enfrentan multiples desafios simultaneamente:
 - Flujo adaptativo segun la calificacion recibida
 
 ### 2. Review Gate Inteligente (Google Maps / GMB)
-- Calificacion 4-5: redireccion directa al enlace de resena de Google
+- Calificacion 4-5: redireccion directa al enlace de reseña de Google
 - Calificacion 1-3: captura privada del feedback, generacion de ticket interno
 - Notificacion inmediata al responsable por email/WhatsApp
 
-### 3. Auto-Respuesta IA a Resenas de Google
+### 3. Auto-Respuesta IA a reseñas de Google
 - Conexion a Google Business Profile API
-- Lectura automatica de nuevas resenas
-- Resenas positivas: respuesta automatica brand-safe
-- Resenas criticas: borrador para revision antes de publicar
+- Lectura automatica de nuevas reseñas
+- reseñas positivas: respuesta automatica brand-safe
+- reseñas criticas: borrador para revision antes de publicar
 - Tono y politicas personalizables por marca
 
 ### 4. Captura de Datos para Remarketing
@@ -68,7 +68,7 @@ Los negocios locales enfrentan multiples desafios simultaneamente:
 - Respeto del consentimiento por canal
 
 ### 7. Panel de Control
-- **Vista Negocio (por sede)**: NPS, reviews generadas, resenas Google, tickets internos, referidos, valor estimado
+- **Vista Negocio (por sede)**: NPS, reviews generadas, reseñas Google, tickets internos, referidos, valor estimado
 - **Vista Agencia (multi-cliente)**: gestion de cuentas, whitelabel, plantillas IA por cliente, limites por plan
 
 ---

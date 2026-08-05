@@ -9,12 +9,12 @@ Despues de que un cliente deja una calificacion positiva (4-5 estrellas) y es re
 ```
 Cliente da 5 estrellas
        ↓
-Va a Google → deja resena
+Va a Google → deja reseña
        ↓
 [15 min despues]
        ↓
 Recibe WhatsApp/SMS:
-"Gracias por tu resena! Como agradecimiento, 
+"Gracias por tu reseña! Como agradecimiento, 
 aqui tienes un cafe gratis en tu proxima visita"
        ↓
 [Adjunto: QR o codigo de cupon]
@@ -66,10 +66,10 @@ CREATE TABLE reward_configs (
 ```
 
 ### Valor para el negocio
-- Aumenta tasa de resenas reales (el cliente sabe que hay premio)
+- Aumenta tasa de reseñas reales (el cliente sabe que hay premio)
 - Genera recompra (el cupon lo trae de vuelta)
 - Trackeable: el negocio ve cuantos cupones se canjearon
-- ROI medible: costo del cafe vs valor de la resena (estimado $50-100 USD por resena)
+- ROI medible: costo del cafe vs valor de la reseña (estimado $50-100 USD por reseña)
 
 ---
 
@@ -156,7 +156,7 @@ Un panel donde el negocio ve toda la informacion de cada cliente en un solo luga
 │ Resumen                                 │
 │ • 5 visitas totales                     │
 │ • Rating promedio: 4.8⭐                │
-│ • 2 resenas dejadas en Google           │
+│ • 2 reseñas dejadas en Google           │
 │ • 3 referidos activos (1 convertido)    │
 │ • Valor estimado: $450.000 COP          │
 │ • Ultima visita: Hoy                    │
@@ -167,7 +167,7 @@ Un panel donde el negocio ve toda la informacion de cada cliente en un solo luga
 │ Jul 28 - Referido "Juan" convertido     │
 │ Jul 20 - Invitacion referido enviada    │
 │ Jul 15 - Visita + Feedback 5⭐          │
-│ Jul 15 - Dejo resena en Google          │
+│ Jul 15 - Dejo reseña en Google          │
 │ Jun 30 - Primera visita + Feedback 4⭐  │
 ├─────────────────────────────────────────┤
 │ Acciones                                │
@@ -233,7 +233,7 @@ El negocio puede elegir entre varios templates pre-disenados para su formulario 
 ## Feature 5: Calificar en Multiples Plataformas (no solo Google)
 
 ### Concepto
-El negocio configura a donde quiere enviar a los clientes satisfechos. Puede ser Google Maps, pero tambien Doctoralia, TripAdvisor, Facebook, Yelp, Trustpilot, u cualquier plataforma con link de resena.
+El negocio configura a donde quiere enviar a los clientes satisfechos. Puede ser Google Maps, pero tambien Doctoralia, TripAdvisor, Facebook, Yelp, Trustpilot, u cualquier plataforma con link de reseña.
 
 ### Plataformas soportadas
 
@@ -255,12 +255,12 @@ Plataformas de destino:
  [✓] Doctoralia                  → https://doctoralia.co/mi-clinica
  [ ] Facebook Reviews            → (no configurado)
  [ ] TripAdvisor                 → (no aplica)
- [✓] URL personalizada           → https://mi-sitio.com/resenas
+ [✓] URL personalizada           → https://mi-sitio.com/reseñas
 
 Comportamiento:
  ○ Enviar a TODAS las plataformas activas (mostrar botones)
  ● Enviar a UNA al azar (rotacion)
- ○ Enviar a la que tenga menos resenas (equilibrar)
+ ○ Enviar a la que tenga menos reseñas (equilibrar)
  ○ Prioridad fija (primero Google, si ya dejo → Doctoralia)
 ```
 
@@ -269,7 +269,7 @@ Comportamiento:
 **Opcion A: Multiples botones**
 ```
 ┌─────────────────────────────────────┐
-│      Donde quieres dejar tu resena? │
+│      Donde quieres dejar tu reseña? │
 │                                     │
 │  [⭐ Google Maps]                   │
 │  [👨‍⚕️ Doctoralia]                    │
@@ -285,7 +285,7 @@ Comportamiento:
 │      Gracias! Te invitamos a        │
 │      compartir tu experiencia       │
 │                                     │
-│  [Dejar resena en Google Maps →]    │
+│  [Dejar reseña en Google Maps →]    │
 │                                     │
 └─────────────────────────────────────┘
 ```
@@ -297,9 +297,9 @@ Comportamiento:
 - ...
 
 ### Metricas multi-plataforma
-- Resenas generadas por plataforma
+- reseñas generadas por plataforma
 - Rating promedio por plataforma
-- Tasa de conversion por plataforma (clicks → resena confirmada)
+- Tasa de conversion por plataforma (clicks → reseña confirmada)
 - Recomendacion: "Tu Google va bien (4.7). Enfocate en Doctoralia (3.9)"
 
 ---

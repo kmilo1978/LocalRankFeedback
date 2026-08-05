@@ -5,7 +5,7 @@
 El desarrollo se divide en **4 fases** con enfoque en validacion temprana:
 
 1. **Fase 1 (MVP Core)**: Feedback + Review Gate + Panel basico → validar product-market fit
-2. **Fase 2 (IA + Respuestas)**: Auto-respuesta IA a resenas → agregar valor diferencial
+2. **Fase 2 (IA + Respuestas)**: Auto-respuesta IA a reseñas → agregar valor diferencial
 3. **Fase 3 (Referidos + Remarketing)**: Programa de referidos + captura de datos → growth loops
 4. **Fase 4 (Escala + Agencias)**: Multi-agencia, whitelabel, analytics avanzado → monetizacion premium
 
@@ -15,7 +15,7 @@ El desarrollo se divide en **4 fases** con enfoque en validacion temprana:
 
 ## Fase 1: MVP Core (Semanas 1-6)
 
-**Objetivo**: Tener un producto funcional que capture feedback, filtre resenas y notifique al negocio.
+**Objetivo**: Tener un producto funcional que capture feedback, filtre reseñas y notifique al negocio.
 
 ### Semana 1-2: Infraestructura Base
 
@@ -63,7 +63,7 @@ El desarrollo se divide en **4 fases** con enfoque en validacion temprana:
 
 ---
 
-## Fase 2: IA + Resenas de Google (Semanas 7-12)
+## Fase 2: IA + reseñas de Google (Semanas 7-12)
 
 **Objetivo**: Conectar con Google Business Profile y agregar respuestas automaticas con IA.
 
@@ -72,25 +72,25 @@ El desarrollo se divide en **4 fases** con enfoque en validacion temprana:
 | Tarea | Detalle | Prioridad |
 |-------|---------|-----------|
 | OAuth con Google | Flujo de conexion GMB desde el panel | Critica |
-| Sync de resenas | Worker que sincroniza resenas nuevas cada 15-30 min | Critica |
-| Vista de resenas | Panel con todas las resenas de Google, filtros, busqueda | Alta |
+| Sync de reseñas | Worker que sincroniza reseñas nuevas cada 15-30 min | Critica |
+| Vista de reseñas | Panel con todas las reseñas de Google, filtros, busqueda | Alta |
 | Almacenamiento seguro | Encriptar refresh tokens, manejar token refresh | Alta |
 | Verificacion de app | Iniciar proceso de verificacion con Google | Alta |
 
-**Entregable**: El negocio ve sus resenas de Google dentro del panel de LocalRank.
+**Entregable**: El negocio ve sus reseñas de Google dentro del panel de LocalRank.
 
 ### Semana 9-10: Motor de Respuestas IA
 
 | Tarea | Detalle | Prioridad |
 |-------|---------|-----------|
 | Plantillas de prompt | CRUD de plantillas IA por cuenta (tono, politicas, contexto) | Critica |
-| Generacion de respuestas | Llamar OpenAI/Claude para generar respuesta a cada resena | Critica |
-| Auto-publish (positivas) | Resenas 4-5: publicar respuesta automaticamente | Alta |
-| Borrador (negativas) | Resenas 1-3: guardar borrador para revision manual | Alta |
+| Generacion de respuestas | Llamar OpenAI/Claude para generar respuesta a cada reseña | Critica |
+| Auto-publish (positivas) | reseñas 4-5: publicar respuesta automaticamente | Alta |
+| Borrador (negativas) | reseñas 1-3: guardar borrador para revision manual | Alta |
 | Interfaz de aprobacion | Vista para revisar, editar y aprobar/rechazar borradores | Alta |
 | Fallback multi-proveedor | Si OpenAI falla → Claude → marcar para manual | Media |
 
-**Entregable**: Resenas positivas se responden solas. Negativas quedan como borrador revisable.
+**Entregable**: reseñas positivas se responden solas. Negativas quedan como borrador revisable.
 
 ### Semana 11-12: Notificaciones Mejoradas + WhatsApp
 
@@ -100,16 +100,16 @@ El desarrollo se divide en **4 fases** con enfoque en validacion temprana:
 | Templates WhatsApp | Crear y someter templates para feedback request | Alta |
 | Envio por WhatsApp | Alternativa al link: enviar solicitud de feedback por WhatsApp | Alta |
 | Selector de canal | Logica para elegir mejor canal disponible (WhatsApp > SMS > Email) | Media |
-| Dashboard mejorado | Agregar metricas de resenas, respuestas IA, tasa de respuesta | Media |
+| Dashboard mejorado | Agregar metricas de reseñas, respuestas IA, tasa de respuesta | Media |
 
-**Entregable**: El sistema puede enviar feedback requests por WhatsApp y responde resenas con IA.
+**Entregable**: El sistema puede enviar feedback requests por WhatsApp y responde reseñas con IA.
 
 ### Criterios de Exito Fase 2
 - [ ] Conexion OAuth con GMB funciona para al menos 5 cuentas
-- [ ] 90%+ de resenas positivas se responden en < 1 hora
+- [ ] 90%+ de reseñas positivas se responden en < 1 hora
 - [ ] Borradores de negativas se generan con calidad aceptable (tasa de aprobacion > 70%)
 - [ ] WhatsApp templates aprobados y enviando correctamente
-- [ ] Costo de IA por resena < $0.05 USD promedio
+- [ ] Costo de IA por reseña < $0.05 USD promedio
 
 ---
 
@@ -185,7 +185,7 @@ El desarrollo se divide en **4 fases** con enfoque en validacion temprana:
 |-------|---------|-----------|
 | NPS tracking | Calculo y evolucion de NPS por sede y periodo | Alta |
 | Reportes automaticos | Email semanal con resumen de metricas | Media |
-| IA insights | Resumen IA de temas recurrentes en feedback y resenas | Media |
+| IA insights | Resumen IA de temas recurrentes en feedback y reseñas | Media |
 | Comparativas | Benchmarks entre sedes del mismo negocio | Media |
 | Exportacion avanzada | Reportes PDF, integracion con Google Data Studio | Baja |
 
