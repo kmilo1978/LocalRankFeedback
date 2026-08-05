@@ -295,13 +295,6 @@ export default function FeedbackFormPage() {
               />
             </div>
           )}
-              <img
-                src={config.branding.logo}
-                alt={config.name}
-                className="mx-auto h-14 w-auto object-contain"
-              />
-            </div>
-          )}
 
           {/* Header */}
           <div className="mb-6 text-center">
