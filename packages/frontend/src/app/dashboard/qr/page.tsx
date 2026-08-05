@@ -1,19 +1,26 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import QRCode from 'qrcode';
 import { mockLocations } from '@/lib/mock-data';
 
 export default function QRGeneratorPage() {
   const [selectedLocation, setSelectedLocation] = useState(mockLocations[0]);
   const [qrDataUrl, setQrDataUrl] = useState('');
+
+  // QR settings
   const [qrSize, setQrSize] = useState(300);
-  const [fgColor, setFgColor] = useState('#000000');
-  const [bgColor, setBgColor] = useState('#ffffff');
-  const [includeText, setIncludeText] = useState(true);
-  const [customText, setCustomText] = useState('Dejanos tu opinion');
-  const [logoInclude, setLogoInclude] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [qrColor, setQrColor] = useState('#000000');
+
+  // Card/poster design
+  const [cardBgColor, setCardBgColor] = useState('#2563eb');
+  const [cardTextColor, setCardTextColor] = useState('#ffffff');
+  const [topMessage, setTopMessage] = useState('Tu opinion nos importa');
+  const [bottomMessage, setBottomMessage] = useState('Escanea el codigo QR y cuentanos como fue tu experiencia');
+  const [ctaText, setCtaText] = useState('Dejanos tu opinion');
+  const [logoUrl, setLogoUrl] = useState('');
+  const [showLogo, setShowLogo] = useState(true);
+  const [cardStyle, setCardStyle] = useState<'modern' | 'minimal' | 'bold' | 'elegant'>('modern');
 
   const feedbackUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/feedback/${selectedLocation.feedbackSlug}`
@@ -21,7 +28,7 @@ export default function QRGeneratorPage() {
 
   useEffect(() => {
     generateQR();
-  }, [selectedLocation, qrSize, fgColor, bgColor]);
+  }, [selectedLocation, qrSize, qrColor]);
 
   const generateQR = async () => {
     try {
@@ -29,8 +36,8 @@ export default function QRGeneratorPage() {
         width: qrSize,
         margin: 2,
         color: {
-          dark: fgColor,
-          light: bgColor,
+          dark: qrColor,
+          light: '#ffffff',
         },
         errorCorrectionLevel: 'H',
       });
@@ -40,16 +47,106 @@ export default function QRGeneratorPage() {
     }
   };
 
-  const downloadQR = async (format: 'png' | 'svg') => {
+  const downloadPNG = () => {
+    const canvas = document.createElement('canvas');
+    const width = 600;
+    const height = 900;
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d')!;
+
+    // Background
+    ctx.fillStyle = cardBgColor;
+    ctx.roundRect(0, 0, width, height, 20);
+    ctx.fill();
+
+    // Logo or business name
+    ctx.fillStyle = cardTextColor;
+    if (showLogo && logoUrl) {
+      // Logo will be handled as text fallback for now
+      ctx.font = 'bold 22px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(selectedLocation.name, width / 2, 60);
+    } else {
+      ctx.font = 'bold 22px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(selectedLocation.name, width / 2, 60);
+    }
+
+    // Top message
+    ctx.font = 'bold 32px -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(topMessage, width / 2, 130);
+
+    // Bottom message (wrapped)
+    ctx.font = '16px -apple-system, sans-serif';
+    ctx.fillStyle = cardTextColor + 'cc';
+    const words = bottomMessage.split(' ');
+    let line = '';
+    let y = 170;
+    for (const word of words) {
+      const test = line + word + ' ';
+      if (ctx.measureText(test).width > width - 80) {
+        ctx.fillText(line, width / 2, y);
+        line = word + ' ';
+        y += 22;
+      } else {
+        line = test;
+      }
+    }
+    ctx.fillText(line, width / 2, y);
+
+    // QR code white background
+    const qrBoxSize = 320;
+    const qrX = (width - qrBoxSize) / 2;
+    const qrY = 220;
+    ctx.fillStyle = '#ffffff';
+    ctx.roundRect(qrX, qrY, qrBoxSize, qrBoxSize, 16);
+    ctx.fill();
+
+    // QR code image
+    const img = new Image();
+    img.onload = () => {
+      const padding = 20;
+      ctx.drawImage(img, qrX + padding, qrY + padding, qrBoxSize - padding * 2, qrBoxSize - padding * 2);
+
+      // CTA text below QR
+      ctx.fillStyle = cardTextColor;
+      ctx.font = 'bold 24px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(ctaText, width / 2, qrY + qrBoxSize + 50);
+
+      // Stars decoration
+      ctx.font = '28px serif';
+      ctx.fillText('⭐⭐⭐⭐⭐', width / 2, qrY + qrBoxSize + 90);
+
+      // URL at bottom
+      ctx.fillStyle = cardTextColor + '80';
+      ctx.font = '12px -apple-system, sans-serif';
+      ctx.fillText(feedbackUrl, width / 2, height - 40);
+
+      // Powered by
+      ctx.font = '10px -apple-system, sans-serif';
+      ctx.fillText('Powered by LocalRank Feedback', width / 2, height - 20);
+
+      // Download
+      const link = document.createElement('a');
+      link.download = `qr-poster-${selectedLocation.feedbackSlug}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    };
+    img.src = qrDataUrl;
+  };
+
+  const downloadQROnly = async (format: 'png' | 'svg') => {
     if (format === 'svg') {
       const svgString = await QRCode.toString(feedbackUrl, {
         type: 'svg',
         width: qrSize,
         margin: 2,
-        color: { dark: fgColor, light: bgColor },
+        color: { dark: qrColor, light: '#ffffff' },
         errorCorrectionLevel: 'H',
       });
-
       const blob = new Blob([svgString], { type: 'image/svg+xml' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -60,48 +157,14 @@ export default function QRGeneratorPage() {
       return;
     }
 
-    // PNG with optional text
-    const canvas = document.createElement('canvas');
-    const padding = 40;
-    const textHeight = includeText ? 60 : 0;
-    canvas.width = qrSize + padding * 2;
-    canvas.height = qrSize + padding * 2 + textHeight;
-
-    const ctx = canvas.getContext('2d')!;
-
-    // Background
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // QR Code
-    const img = new Image();
-    img.onload = () => {
-      ctx.drawImage(img, padding, padding, qrSize, qrSize);
-
-      // Text below QR
-      if (includeText && customText) {
-        ctx.fillStyle = fgColor;
-        ctx.font = `bold ${Math.max(16, qrSize / 15)}px -apple-system, BlinkMacSystemFont, sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.fillText(customText, canvas.width / 2, qrSize + padding + 35);
-      }
-
-      // Location name at top
-      ctx.fillStyle = fgColor;
-      ctx.font = `${Math.max(12, qrSize / 25)}px -apple-system, BlinkMacSystemFont, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.fillText(selectedLocation.name, canvas.width / 2, padding - 10);
-
-      // Download
-      const link = document.createElement('a');
-      link.download = `qr-${selectedLocation.feedbackSlug}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    };
-    img.src = qrDataUrl;
+    // Just the QR as PNG
+    const link = document.createElement('a');
+    link.download = `qr-${selectedLocation.feedbackSlug}.png`;
+    link.href = qrDataUrl;
+    link.click();
   };
 
-  const printQR = () => {
+  const printPoster = () => {
     const printWindow = window.open('', '_blank');
     if (!printWindow) return;
 
@@ -109,54 +172,38 @@ export default function QRGeneratorPage() {
       <!DOCTYPE html>
       <html>
       <head>
-        <title>QR Code - ${selectedLocation.name}</title>
+        <title>QR Poster - ${selectedLocation.name}</title>
         <style>
-          body { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          }
-          .container {
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #f3f4f6; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+          .poster {
+            width: 400px;
+            background: ${cardBgColor};
+            border-radius: 20px;
+            padding: 40px 30px;
             text-align: center;
-            padding: 40px;
+            color: ${cardTextColor};
           }
-          .location-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 20px;
-          }
-          .qr-image {
-            width: ${qrSize}px;
-            height: ${qrSize}px;
-          }
-          .custom-text {
-            font-size: 22px;
-            font-weight: 700;
-            color: #333;
-            margin-top: 20px;
-          }
-          .url-text {
-            font-size: 11px;
-            color: #999;
-            margin-top: 10px;
-            word-break: break-all;
-          }
-          @media print {
-            body { margin: 0; }
-          }
+          .logo-name { font-size: 16px; font-weight: 600; opacity: 0.9; margin-bottom: 20px; }
+          .top-msg { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+          .bottom-msg { font-size: 13px; opacity: 0.8; margin-bottom: 24px; line-height: 1.4; }
+          .qr-box { background: white; border-radius: 16px; padding: 20px; display: inline-block; margin-bottom: 20px; }
+          .qr-box img { width: 220px; height: 220px; }
+          .cta { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+          .stars { font-size: 22px; margin-bottom: 16px; }
+          .url { font-size: 9px; opacity: 0.5; word-break: break-all; }
+          @media print { body { background: white; } .poster { box-shadow: none; } }
         </style>
       </head>
       <body>
-        <div class="container">
-          <p class="location-name">${selectedLocation.name}</p>
-          <img src="${qrDataUrl}" class="qr-image" />
-          ${includeText ? `<p class="custom-text">${customText}</p>` : ''}
-          <p class="url-text">${feedbackUrl}</p>
+        <div class="poster">
+          <p class="logo-name">${selectedLocation.name}</p>
+          <h1 class="top-msg">${topMessage}</h1>
+          <p class="bottom-msg">${bottomMessage}</p>
+          <div class="qr-box"><img src="${qrDataUrl}" /></div>
+          <p class="cta">${ctaText}</p>
+          <p class="stars">⭐⭐⭐⭐⭐</p>
+          <p class="url">${feedbackUrl}</p>
         </div>
         <script>window.onload = function() { window.print(); }</script>
       </body>
@@ -169,16 +216,43 @@ export default function QRGeneratorPage() {
     navigator.clipboard.writeText(feedbackUrl);
   };
 
+  // Preset styles
+  const applyPreset = (preset: string) => {
+    switch (preset) {
+      case 'modern':
+        setCardBgColor('#2563eb'); setCardTextColor('#ffffff'); setQrColor('#000000');
+        setTopMessage('Tu opinion nos importa'); setCtaText('Dejanos tu opinion');
+        setCardStyle('modern');
+        break;
+      case 'minimal':
+        setCardBgColor('#ffffff'); setCardTextColor('#111827'); setQrColor('#111827');
+        setTopMessage('Como fue tu experiencia?'); setCtaText('Escanea aqui');
+        setCardStyle('minimal');
+        break;
+      case 'bold':
+        setCardBgColor('#7c3aed'); setCardTextColor('#ffffff'); setQrColor('#4c1d95');
+        setTopMessage('Nos encantaria saber tu opinion!'); setCtaText('Escanea y opina');
+        setCardStyle('bold');
+        break;
+      case 'elegant':
+        setCardBgColor('#1f2937'); setCardTextColor('#f9fafb'); setQrColor('#1f2937');
+        setTopMessage('Valoramos tu experiencia'); setCtaText('Comparte tu opinion');
+        setCardStyle('elegant');
+        break;
+    }
+  };
+
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6">
         <h1 className="text-2xl font-bold text-gray-900">QR Code Generator</h1>
+        <p className="mt-1 text-sm text-gray-600">Personaliza y descarga el QR para tu negocio</p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Settings */}
-        <div className="space-y-5">
-          {/* Location selector */}
+        {/* Settings Panel */}
+        <div className="space-y-4">
+          {/* Location */}
           <div className="rounded-lg border bg-white p-5 shadow-sm">
             <label className="mb-2 block text-sm font-medium text-gray-700">Sede</label>
             <select
@@ -190,186 +264,211 @@ export default function QRGeneratorPage() {
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
             >
               {mockLocations.map((loc) => (
-                <option key={loc.id} value={loc.id}>
-                  {loc.name}
-                </option>
+                <option key={loc.id} value={loc.id}>{loc.name}</option>
               ))}
             </select>
+            <div className="mt-2 flex gap-2">
+              <input type="text" readOnly value={feedbackUrl} className="flex-1 rounded-md border bg-gray-50 px-3 py-1.5 text-xs text-gray-500" />
+              <button onClick={copyLink} className="rounded-md border px-3 py-1.5 text-xs hover:bg-gray-50">📋</button>
+            </div>
+          </div>
 
-            <div className="mt-3">
-              <label className="mb-1 block text-xs text-gray-500">URL del formulario</label>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  readOnly
-                  value={feedbackUrl}
-                  className="flex-1 rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-600"
-                />
+          {/* Presets */}
+          <div className="rounded-lg border bg-white p-5 shadow-sm">
+            <label className="mb-2 block text-sm font-medium text-gray-700">Estilo predefinido</label>
+            <div className="grid grid-cols-4 gap-2">
+              {[
+                { id: 'modern', label: 'Moderno', color: '#2563eb' },
+                { id: 'minimal', label: 'Minimal', color: '#ffffff' },
+                { id: 'bold', label: 'Vibrante', color: '#7c3aed' },
+                { id: 'elegant', label: 'Elegante', color: '#1f2937' },
+              ].map((p) => (
                 <button
-                  onClick={copyLink}
-                  className="rounded-md border border-gray-300 px-3 py-2 text-xs hover:bg-gray-50"
+                  key={p.id}
+                  onClick={() => applyPreset(p.id)}
+                  className={`rounded-md border-2 p-2 text-center text-xs transition ${
+                    cardStyle === p.id ? 'border-blue-500 ring-1 ring-blue-500' : 'border-gray-200 hover:border-gray-400'
+                  }`}
                 >
-                  📋 Copiar
+                  <div className="mx-auto mb-1 h-6 w-6 rounded-full border" style={{ backgroundColor: p.color }}></div>
+                  {p.label}
                 </button>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* QR Customization */}
+          {/* Colors */}
           <div className="rounded-lg border bg-white p-5 shadow-sm">
-            <h3 className="mb-3 font-medium text-gray-900">Personalizar QR</h3>
-
-            <div className="grid grid-cols-2 gap-4">
+            <h3 className="mb-3 text-sm font-medium text-gray-700">Colores</h3>
+            <div className="grid grid-cols-3 gap-3">
               <div>
-                <label className="mb-1 block text-xs font-medium text-gray-700">Tamaño (px)</label>
-                <select
-                  value={qrSize}
-                  onChange={(e) => setQrSize(Number(e.target.value))}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-                >
-                  <option value={200}>200px (Pequeño)</option>
-                  <option value={300}>300px (Normal)</option>
-                  <option value={400}>400px (Grande)</option>
-                  <option value={500}>500px (Poster)</option>
-                  <option value={800}>800px (Impresion HD)</option>
-                </select>
-              </div>
-              <div>
-                <label className="mb-1 block text-xs font-medium text-gray-700">Color QR</label>
-                <div className="flex gap-2">
-                  <input
-                    type="color"
-                    value={fgColor}
-                    onChange={(e) => setFgColor(e.target.value)}
-                    className="h-9 w-10 cursor-pointer rounded border"
-                  />
-                  <input
-                    type="text"
-                    value={fgColor}
-                    onChange={(e) => setFgColor(e.target.value)}
-                    className="flex-1 rounded-md border border-gray-300 px-2 py-1 text-xs"
-                  />
+                <label className="mb-1 block text-xs text-gray-500">Fondo</label>
+                <div className="flex gap-1.5">
+                  <input type="color" value={cardBgColor} onChange={(e) => setCardBgColor(e.target.value)} className="h-8 w-8 cursor-pointer rounded border" />
+                  <input type="text" value={cardBgColor} onChange={(e) => setCardBgColor(e.target.value)} className="flex-1 rounded border px-2 text-xs" />
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-xs font-medium text-gray-700">Color fondo</label>
-                <div className="flex gap-2">
-                  <input
-                    type="color"
-                    value={bgColor}
-                    onChange={(e) => setBgColor(e.target.value)}
-                    className="h-9 w-10 cursor-pointer rounded border"
-                  />
-                  <input
-                    type="text"
-                    value={bgColor}
-                    onChange={(e) => setBgColor(e.target.value)}
-                    className="flex-1 rounded-md border border-gray-300 px-2 py-1 text-xs"
-                  />
+                <label className="mb-1 block text-xs text-gray-500">Texto</label>
+                <div className="flex gap-1.5">
+                  <input type="color" value={cardTextColor} onChange={(e) => setCardTextColor(e.target.value)} className="h-8 w-8 cursor-pointer rounded border" />
+                  <input type="text" value={cardTextColor} onChange={(e) => setCardTextColor(e.target.value)} className="flex-1 rounded border px-2 text-xs" />
+                </div>
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-gray-500">QR Code</label>
+                <div className="flex gap-1.5">
+                  <input type="color" value={qrColor} onChange={(e) => setQrColor(e.target.value)} className="h-8 w-8 cursor-pointer rounded border" />
+                  <input type="text" value={qrColor} onChange={(e) => setQrColor(e.target.value)} className="flex-1 rounded border px-2 text-xs" />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Text options */}
+          {/* Logo */}
           <div className="rounded-lg border bg-white p-5 shadow-sm">
-            <h3 className="mb-3 font-medium text-gray-900">Texto</h3>
+            <h3 className="mb-3 text-sm font-medium text-gray-700">Logo</h3>
+            <div className="flex items-center gap-3 mb-3">
+              <input
+                type="checkbox"
+                id="show-logo"
+                checked={showLogo}
+                onChange={(e) => setShowLogo(e.target.checked)}
+                className="h-4 w-4 rounded border-gray-300"
+              />
+              <label htmlFor="show-logo" className="text-sm text-gray-700">Mostrar logo/nombre</label>
+            </div>
+            {showLogo && (
+              <input
+                type="url"
+                value={logoUrl}
+                onChange={(e) => setLogoUrl(e.target.value)}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                placeholder="https://tudominio.com/logo.png (opcional)"
+              />
+            )}
+            <p className="mt-1 text-xs text-gray-400">Si no hay logo, se muestra el nombre de la sede</p>
+          </div>
+
+          {/* Messages */}
+          <div className="rounded-lg border bg-white p-5 shadow-sm">
+            <h3 className="mb-3 text-sm font-medium text-gray-700">Mensajes</h3>
             <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  id="include-text"
-                  checked={includeText}
-                  onChange={(e) => setIncludeText(e.target.checked)}
-                  className="h-4 w-4 rounded border-gray-300"
-                />
-                <label htmlFor="include-text" className="text-sm text-gray-700">
-                  Incluir texto debajo del QR
-                </label>
-              </div>
-              {includeText && (
+              <div>
+                <label className="mb-1 block text-xs text-gray-500">Titulo principal</label>
                 <input
                   type="text"
-                  value={customText}
-                  onChange={(e) => setCustomText(e.target.value)}
+                  value={topMessage}
+                  onChange={(e) => setTopMessage(e.target.value)}
                   className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
-                  placeholder="Texto personalizado..."
+                  placeholder="Tu opinion nos importa"
                 />
-              )}
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-gray-500">Descripcion</label>
+                <input
+                  type="text"
+                  value={bottomMessage}
+                  onChange={(e) => setBottomMessage(e.target.value)}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                  placeholder="Escanea el codigo y cuentanos..."
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs text-gray-500">Texto CTA (debajo del QR)</label>
+                <input
+                  type="text"
+                  value={ctaText}
+                  onChange={(e) => setCtaText(e.target.value)}
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+                  placeholder="Dejanos tu opinion"
+                />
+              </div>
             </div>
           </div>
 
-          {/* Actions */}
+          {/* Download Actions */}
           <div className="rounded-lg border bg-white p-5 shadow-sm">
-            <h3 className="mb-3 font-medium text-gray-900">Descargar / Imprimir</h3>
-            <div className="grid grid-cols-3 gap-3">
-              <button
-                onClick={() => downloadQR('png')}
-                className="rounded-md bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
-              >
-                📥 PNG
+            <h3 className="mb-3 text-sm font-medium text-gray-700">Descargar</h3>
+            <div className="grid grid-cols-2 gap-3">
+              <button onClick={downloadPNG} className="rounded-md bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700">
+                📥 Poster PNG
               </button>
-              <button
-                onClick={() => downloadQR('svg')}
-                className="rounded-md border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-              >
-                📥 SVG
+              <button onClick={printPoster} className="rounded-md border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                🖨️ Imprimir Poster
               </button>
-              <button
-                onClick={printQR}
-                className="rounded-md border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-              >
-                🖨️ Imprimir
+              <button onClick={() => downloadQROnly('png')} className="rounded-md border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                📥 Solo QR (PNG)
+              </button>
+              <button onClick={() => downloadQROnly('svg')} className="rounded-md border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                📥 Solo QR (SVG)
               </button>
             </div>
           </div>
         </div>
 
-        {/* Preview */}
+        {/* Live Preview */}
         <div>
-          <div className="sticky top-6 rounded-lg border bg-white p-6 shadow-sm">
-            <h3 className="mb-4 text-center font-medium text-gray-900">Vista previa</h3>
+          <div className="sticky top-6">
+            <p className="mb-3 text-center text-sm font-medium text-gray-700">Vista previa</p>
 
-            <div className="flex flex-col items-center rounded-lg border-2 border-dashed border-gray-200 p-8" style={{ backgroundColor: bgColor }}>
-              <p className="mb-3 text-sm font-medium" style={{ color: fgColor }}>
-                {selectedLocation.name}
-              </p>
-
-              {qrDataUrl && (
-                <img
-                  src={qrDataUrl}
-                  alt="QR Code"
-                  style={{ width: Math.min(qrSize, 280), height: Math.min(qrSize, 280) }}
-                  className="rounded"
-                />
+            {/* Poster preview */}
+            <div
+              className="mx-auto max-w-[320px] rounded-2xl p-8 text-center shadow-xl transition-all"
+              style={{ backgroundColor: cardBgColor, color: cardTextColor }}
+            >
+              {/* Logo / Name */}
+              {showLogo && (
+                <div className="mb-4">
+                  {logoUrl ? (
+                    <img src={logoUrl} alt="Logo" className="mx-auto h-8 w-auto object-contain" />
+                  ) : (
+                    <p className="text-sm font-semibold opacity-90">{selectedLocation.name}</p>
+                  )}
+                </div>
               )}
 
-              {includeText && customText && (
-                <p className="mt-4 text-lg font-bold" style={{ color: fgColor }}>
-                  {customText}
-                </p>
-              )}
+              {/* Top message */}
+              <h2 className="text-xl font-bold leading-tight">{topMessage}</h2>
 
-              <p className="mt-2 text-xs text-gray-400 break-all text-center max-w-[250px]">
-                {feedbackUrl}
-              </p>
+              {/* Description */}
+              <p className="mt-2 text-xs opacity-80 leading-relaxed">{bottomMessage}</p>
+
+              {/* QR */}
+              <div className="mx-auto mt-5 inline-block rounded-xl bg-white p-4">
+                {qrDataUrl && (
+                  <img src={qrDataUrl} alt="QR" className="h-44 w-44" />
+                )}
+              </div>
+
+              {/* CTA */}
+              <p className="mt-4 text-lg font-bold">{ctaText}</p>
+
+              {/* Stars */}
+              <p className="mt-1 text-base">⭐⭐⭐⭐⭐</p>
+
+              {/* URL */}
+              <p className="mt-4 text-[9px] opacity-40 break-all">{feedbackUrl}</p>
             </div>
 
-            {/* Tips */}
-            <div className="mt-5 rounded-md bg-blue-50 p-4">
-              <p className="text-xs font-medium text-blue-800 mb-2">Tips para mejor resultado:</p>
-              <ul className="space-y-1 text-xs text-blue-700">
-                <li>• Imprime en tamaño minimo 5x5 cm para que se escanee bien</li>
-                <li>• Coloca el QR en recepcion, junto a la caja, o en la sala de espera</li>
-                <li>• Usa color oscuro sobre fondo claro para mejor contraste</li>
-                <li>• El formato SVG es ideal para impresion profesional</li>
-              </ul>
+            {/* Size selector below preview */}
+            <div className="mt-4 text-center">
+              <label className="text-xs text-gray-500">Resolucion QR: </label>
+              <select
+                value={qrSize}
+                onChange={(e) => setQrSize(Number(e.target.value))}
+                className="rounded border px-2 py-1 text-xs"
+              >
+                <option value={200}>200px</option>
+                <option value={300}>300px</option>
+                <option value={400}>400px</option>
+                <option value={600}>600px HD</option>
+                <option value={800}>800px Print</option>
+              </select>
             </div>
           </div>
         </div>
       </div>
-
-      <canvas ref={canvasRef} style={{ display: 'none' }} />
     </div>
   );
 }
