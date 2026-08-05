@@ -3,9 +3,10 @@ import { FeedbackController } from './feedback.controller';
 import { FeedbackPublicController } from './feedback-public.controller';
 import { FeedbackService } from './feedback.service';
 import { LocationsModule } from '../locations/locations.module';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
-  imports: [LocationsModule],
+  imports: [LocationsModule, NotificationsModule],
   controllers: [FeedbackController, FeedbackPublicController],
   providers: [FeedbackService],
   exports: [FeedbackService],

@@ -1,26 +1,31 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { SubmitFeedbackDto } from './dto/submit-feedback.dto';
 import { LocationsService } from '../locations/locations.service';
+import { NotificationsService } from '../notifications/notifications.service';
 
 export interface FeedbackResult {
   feedbackId: string;
   action: 'redirect_google' | 'captured_private';
   googleReviewUrl?: string;
   message: string;
+  notificationSent?: boolean;
 }
 
 @Injectable()
 export class FeedbackService {
+  private readonly logger = new Logger(FeedbackService.name);
+
   constructor(
     private prisma: PrismaService,
     private locationsService: LocationsService,
+    private notificationsService: NotificationsService,
   ) {}
 
   /**
    * Submit feedback from public form (Review Gate logic)
-   * - Rating 4-5: redirect to Google review
-   * - Rating 1-3: capture privately + create ticket
+   * - Rating 4-5: redirect directly to Google Maps Business (GMB) review link
+   * - Rating 1-3: capture privately + create ticket + send WhatsApp/Email alert to owner
    */
   async submitFeedback(
     slug: string,
@@ -82,8 +87,12 @@ export class FeedbackService {
       },
     });
 
-    // If negative feedback, create internal ticket
+    // ===========================
+    // NEGATIVE FEEDBACK (1-3 stars)
+    // Create ticket + Send WhatsApp/Email notification to business owner
+    // ===========================
     if (dto.rating < threshold) {
+      // Create internal ticket
       await this.prisma.internalTicket.create({
         data: {
           locationId: location.id,
@@ -92,18 +101,56 @@ export class FeedbackService {
         },
       });
 
-      // TODO: Send notification to business owner (email/WhatsApp)
+      // Send notification to business owner (WhatsApp + Email)
+      const settings = location.settings as any;
+      const notifyWhatsapp = settings?.notifyWhatsapp;
+      const notifyEmail = settings?.notifyEmail;
+
+      // Fire notification asynchronously (don't block the response)
+      this.notificationsService
+        .sendNegativeFeedbackAlert({
+          locationName: location.name,
+          notifyEmail,
+          notifyWhatsapp,
+          rating: dto.rating,
+          comment: dto.comment,
+          clientName: dto.name,
+          clientEmail: dto.email,
+          clientPhone: dto.phone,
+          feedbackId: feedback.id,
+          createdAt: new Date(),
+        })
+        .catch((error) => {
+          this.logger.error(
+            `Failed to send notification for feedback ${feedback.id}: ${error.message}`,
+          );
+        });
+
+      this.logger.log(
+        `Negative feedback received (${dto.rating}/5) at "${location.name}". ` +
+          `Ticket created. Notification dispatched to: ` +
+          `WhatsApp=${notifyWhatsapp || 'none'}, Email=${notifyEmail || 'none'}`,
+      );
 
       return {
         feedbackId: feedback.id,
         action: 'captured_private',
+        notificationSent: !!(notifyWhatsapp || notifyEmail),
         message:
           (location.branding as any)?.negativeMessage ||
-          'Gracias por tu feedback. Lo tendremos en cuenta para mejorar.',
+          'Gracias por tu feedback. Lo tendremos en cuenta para mejorar. Nuestro equipo ha sido notificado.',
       };
     }
 
-    // Positive feedback - redirect to Google
+    // ===========================
+    // POSITIVE FEEDBACK (4-5 stars)
+    // Redirect directly to Google Maps Business review link
+    // ===========================
+    this.logger.log(
+      `Positive feedback received (${dto.rating}/5) at "${location.name}". ` +
+        `Redirecting to GMB: ${location.googleReviewUrl || 'no URL configured'}`,
+    );
+
     return {
       feedbackId: feedback.id,
       action: 'redirect_google',
