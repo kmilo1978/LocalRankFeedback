@@ -1,6 +1,6 @@
 # Estado del Proyecto - LocalRank Feedback
 
-> Actualizado: Agosto 2026
+> Actualizado: Agosto 5, 2026
 
 ## Completado
 
@@ -11,86 +11,49 @@
 - [x] Panel: dashboard, feedback, tickets, contactos, sedes, settings
 - [x] Branding: banner/franja superior, logo, colores, campos personalizables
 - [x] Marketing consent en ratings positivos (4-5)
-- [x] Landing page de ventas
-- [x] Pagina de precios (3 planes: Starter $49, Growth $99, Agency $249)
-- [x] Pitch deck para inversores (14 slides)
-- [x] Secuencias de emails/WhatsApp para venta (5 secuencias)
 - [x] Multi-plataforma: soporte para Google, Doctoralia, Facebook, TripAdvisor, etc.
 - [x] Cupones de recompensa post-reseña (codigo unico, un solo uso, configurable)
 - [x] Programa de referidos con premio (link unico, landing, conversion tracking)
-- [x] Dashboard de cupones (generados, enviados, canjeados, tasa)
-- [x] Dashboard de referidos (links, clicks, conversiones, tasa)
-- [x] Pagina publica de cupon (/coupon/[code]) con validacion de uso unico
-- [x] Pagina publica de referido (/referral/[code]) con landing + formulario
+- [x] QR Code generator con personalizacion completa (colores, logo, mensajes, presets)
+- [x] Landing page de ventas + Pricing page
+- [x] Pitch deck + Sales emails
+- [x] **Base de datos en Supabase** (14 tablas creadas + seed data)
 
-## Pendiente
+## Problema actual: Deploy
 
-### Tecnico (por prioridad)
-1. Conectar frontend al backend real (requiere Docker o SQLite)
-2. Deploy a produccion (Vercel frontend + Railway backend)
-3. QR Code generator por sede
-4. Auto-respuesta IA a reseñas de Google (Google Business Profile API + OpenAI)
-5. Plantillas de diseño personalizadas (6 templates)
-6. Dashboard de clientes tipo mini-CRM (timeline, segmentos, valor)
+- Render Free no conecta con Supabase (IPv6/firewall issue comun)
+- **Solucion para proxima sesion:** Migrar API routes a Next.js y deployar todo en Vercel
+- Vercel + Supabase funciona perfecto (probado, documentado)
 
-### Negocio
-1. Onboarding wizard (guia paso a paso para nuevos negocios)
-2. Paginas por industria (clinicas, gyms, estetica)
-3. Video demo / walkthrough
-4. Preparar materiales para prospeccion (adaptar emails a negocios reales)
+## Proxima sesion: Plan
 
----
+1. **Migrar APIs criticas a Next.js API routes** (auth, feedback, locations)
+   - Usar Supabase JS Client directo (no necesita Prisma para las queries)
+   - O usar Prisma con connection pooling desde Vercel
+2. **Deploy a Vercel** (frontend + API en un solo servicio)
+3. **Resultado:** URL publica funcional tipo `localrankfeedback.vercel.app`
 
-## Estructura del Proyecto
+## Credenciales
 
-```
-LocalRank Feedback2/
-├── docs/
-│   ├── ARCHITECTURE.md         # Diseño multi-tenant, colas, integraciones
-│   ├── MVP-ROADMAP.md          # 4 fases, 24 semanas
-│   ├── API-DESIGN.md           # Endpoints REST completos
-│   ├── DATABASE-SCHEMA.md      # PostgreSQL con 20+ tablas
-│   ├── NEW-FEATURES.md         # 5 features nuevas documentadas
-│   ├── PITCH-DECK.md           # 14 slides para inversores
-│   └── SALES-EMAILS.md         # 5 secuencias de venta
-├── packages/
-│   ├── backend/                # NestJS API
-│   │   ├── src/modules/
-│   │   │   ├── auth/           # JWT, register, login
-│   │   │   ├── feedback/       # Review gate + notificaciones
-│   │   │   ├── locations/      # CRUD sedes
-│   │   │   ├── tickets/        # Tickets internos
-│   │   │   ├── contacts/       # Contactos
-│   │   │   ├── notifications/  # WhatsApp + Email alerts
-│   │   │   ├── platforms/      # Multi-plataforma reseñas
-│   │   │   ├── rewards/        # Cupones post-reseña
-│   │   │   ├── referrals/      # Programa de referidos
-│   │   │   └── health/         # Health check
-│   │   └── prisma/schema.prisma # 14 tablas
-│   ├── frontend/               # Next.js
-│   │   └── src/app/
-│   │       ├── page.tsx              # Landing de ventas
-│   │       ├── pricing/              # Pagina de precios
-│   │       ├── auth/                 # Login + Register
-│   │       ├── feedback/[slug]/      # Formulario publico
-│   │       ├── coupon/[code]/        # Pagina cupon (uso unico)
-│   │       ├── referral/[code]/      # Landing referido
-│   │       └── dashboard/
-│   │           ├── page.tsx          # Dashboard principal
-│   │           ├── feedback/         # Lista de feedback
-│   │           ├── tickets/          # Tickets internos
-│   │           ├── rewards/          # Panel cupones
-│   │           ├── referrals/        # Panel referidos
-│   │           ├── contacts/         # Contactos
-│   │           ├── locations/        # Sedes
-│   │           └── settings/         # Configuracion completa
-│   └── shared/                 # Types, enums, constants
-├── docker-compose.yml          # PostgreSQL + Redis
-├── package.json                # Monorepo workspaces
-└── .env.example                # Variables de entorno
-```
+### Supabase
+- Proyecto: LocalRank Feedback
+- Region: US West (Oregon)
+- Project ref: `qqwxongghwrabnynlhlf`
+- URL: `https://qqwxongghwrabnynlhlf.supabase.co`
+- DB Password: Nachopan89
+- Connection (pooler): `postgresql://postgres.qqwxongghwrabnynlhlf:Nachopan89@aws-1-us-west-2.pooler.supabase.com:6543/postgres?pgbouncer=true`
+- Connection (direct): `postgresql://postgres.qqwxongghwrabnynlhlf:Nachopan89@aws-1-us-west-2.pooler.supabase.com:5432/postgres`
 
----
+### Demo User
+- Email: admin@localrankfeedback.com
+- Password: Demo1234!
+
+### GitHub
+- Repo: https://github.com/kmilo1978/LocalRankFeedback
+
+### Render (no funciono - puede eliminarse)
+- URL: https://localrankfeedback.onrender.com
+- Status: Failed (P1000 connection error)
 
 ## Como correr localmente
 
@@ -101,30 +64,6 @@ npm run dev:frontend
 
 Abre: http://localhost:3000
 
-### URLs disponibles
-| URL | Pagina |
-|-----|--------|
-| / | Landing de ventas |
-| /pricing | Precios (3 planes) |
-| /auth/login | Login |
-| /auth/register | Registro |
-| /feedback/clinica-sonrisa-centro | Formulario feedback |
-| /coupon/LR-A3K9F2XB | Cupon de uso unico |
-| /referral/ab3k9f2x | Landing de referido |
-| /dashboard | Panel principal |
-| /dashboard/feedback | Lista feedback |
-| /dashboard/tickets | Tickets internos |
-| /dashboard/rewards | Panel cupones |
-| /dashboard/referrals | Panel referidos |
-| /dashboard/contacts | Contactos |
-| /dashboard/locations | Sedes |
-| /dashboard/settings | Configuracion |
-
 ---
 
-## GitHub
-https://github.com/kmilo1978/LocalRankFeedback
-
----
-
-*Actualizado: Agosto 2026*
+*Actualizado: Agosto 5, 2026*
