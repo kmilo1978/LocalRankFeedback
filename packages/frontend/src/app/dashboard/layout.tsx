@@ -7,6 +7,8 @@ const navItems = [
   { href: '/dashboard', label: 'Inicio', icon: '📊' },
   { href: '/dashboard/feedback', label: 'Feedback', icon: '⭐' },
   { href: '/dashboard/tickets', label: 'Tickets', icon: '🎫' },
+  { href: '/dashboard/rewards', label: 'Cupones', icon: '🎁' },
+  { href: '/dashboard/referrals', label: 'Referidos', icon: '🔗' },
   { href: '/dashboard/contacts', label: 'Contactos', icon: '👥' },
   { href: '/dashboard/locations', label: 'Sedes', icon: '📍' },
   { href: '/dashboard/settings', label: 'Configuracion', icon: '⚙️' },

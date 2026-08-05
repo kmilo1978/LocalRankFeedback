@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { mockLocationConfig } from '@/lib/mock-data';
+import { mockLocationConfig, mockReviewPlatforms } from '@/lib/mock-data';
 
 interface LocationConfig {
   id: string;
@@ -53,6 +53,7 @@ export default function FeedbackFormPage() {
   const [phone, setPhone] = useState('');
   const [marketingConsent, setMarketingConsent] = useState(false);
   const [result, setResult] = useState<FeedbackResult | null>(null);
+  const [platforms, setPlatforms] = useState<Array<{ id: string; platform: string; name: string; url: string; icon: string; priority: number }>>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -84,6 +85,7 @@ export default function FeedbackFormPage() {
           ? 'Clinica Dental Sonrisa - Sede Norte'
           : mockLocationConfig.name,
       });
+      setPlatforms(mockReviewPlatforms);
       setStep('rate');
     } else {
       setError('Formulario no encontrado');
@@ -226,7 +228,24 @@ export default function FeedbackFormPage() {
                 <h2 className="text-xl font-bold text-gray-900">Muchas gracias!</h2>
                 <p className="mt-3 text-gray-600">{result.message}</p>
 
-                {result.googleReviewUrl && (
+                {/* Multi-platform buttons */}
+                {platforms.length > 1 ? (
+                  <div className="mt-6 space-y-3">
+                    <p className="text-sm font-medium text-gray-700">Donde quieres dejar tu resena?</p>
+                    {platforms.map((p) => (
+                      <a
+                        key={p.id}
+                        href={p.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 w-full rounded-lg border-2 border-gray-200 px-5 py-3 text-sm font-medium text-gray-800 transition hover:border-blue-400 hover:bg-blue-50"
+                      >
+                        <span className="text-lg">{p.icon}</span>
+                        {p.name}
+                      </a>
+                    ))}
+                  </div>
+                ) : result.googleReviewUrl ? (
                   <div className="mt-6">
                     <a
                       href={result.googleReviewUrl}
@@ -242,7 +261,7 @@ export default function FeedbackFormPage() {
                       Seras redirigido automaticamente...
                     </p>
                   </div>
-                )}
+                ) : null}
               </>
             ) : (
               <>

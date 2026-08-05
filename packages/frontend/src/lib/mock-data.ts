@@ -14,7 +14,7 @@ export const mockLocationConfig = {
     thankYouTitle: 'Como fue tu experiencia?',
     thankYouSubtitle: 'Tu opinion es muy importante para nosotros',
     positiveMessage:
-      'Nos alegra que hayas tenido una excelente experiencia! Te invitamos a compartirla en Google.',
+      'Nos alegra que hayas tenido una excelente experiencia! Te invitamos a compartirla.',
     negativeMessage:
       'Gracias por tu feedback. Tomaremos accion para mejorar tu proxima experiencia.',
   },
@@ -28,9 +28,16 @@ export const mockLocationConfig = {
     emailRequired: false,
     phoneRequired: false,
     marketingConsentText: 'Acepto recibir promociones, novedades y beneficios exclusivos por email o WhatsApp. Puedo darme de baja en cualquier momento.',
+    platformMode: 'buttons', // 'buttons' | 'single' | 'rotation'
   },
   active: true,
 };
+
+export const mockReviewPlatforms = [
+  { id: '1', platform: 'google', name: 'Google Maps', url: 'https://g.page/r/example/review', icon: '🔍', priority: 10 },
+  { id: '2', platform: 'doctoralia', name: 'Doctoralia', url: 'https://doctoralia.co/clinica-sonrisa', icon: '👨‍⚕️', priority: 5 },
+  { id: '3', platform: 'facebook', name: 'Facebook', url: 'https://facebook.com/clinicasonrisa/reviews', icon: '📘', priority: 3 },
+];
 
 export const mockFeedbackList = [
   {

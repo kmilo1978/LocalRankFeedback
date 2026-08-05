@@ -53,6 +53,9 @@ model Location {
   visits          Visit[]
   feedback        Feedback[]
   internalTickets InternalTicket[]
+  reviewPlatforms ReviewPlatform[]
+  rewardConfigs   RewardConfig[]
+  referralPrograms ReferralProgram[]
 
   @@index([accountId])
   @@map("locations")
@@ -101,10 +104,11 @@ model Contact {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relations
-  location  Location   @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  location  Location       @relation(fields: [locationId], references: [id], onDelete: Cascade)
   consents  Consent[]
   visits    Visit[]
   feedback  Feedback[]
+  referralLinks ReferralLink[]
 
   @@unique([locationId, email], name: "locationId_email")
   @@index([locationId])
@@ -201,4 +205,151 @@ model InternalTicket {
   @@index([locationId, status])
   @@index([status, createdAt(sort: Desc)])
   @@map("internal_tickets")
+}
+
+// ============================================
+// REVIEW PLATFORMS (Multi-platform support)
+// ============================================
+
+model ReviewPlatform {
+  id         String  @id @default(uuid())
+  locationId String  @map("location_id")
+  platform   String  // 'google' | 'doctoralia' | 'facebook' | 'tripadvisor' | 'yelp' | 'trustpilot' | 'custom'
+  name       String  // Display name: "Google Maps", "Doctoralia", etc.
+  url        String  // Review URL for this platform
+  icon       String? // Icon/emoji for display
+  active     Boolean @default(true)
+  priority   Int     @default(0) // Higher = shown first
+  clicks     Int     @default(0)
+  reviews    Int     @default(0) // Confirmed reviews generated
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@index([locationId, active])
+  @@map("review_platforms")
+}
+
+// ============================================
+// REWARD COUPONS (Post-review incentives)
+// ============================================
+
+model RewardConfig {
+  id                String   @id @default(uuid())
+  locationId        String   @map("location_id")
+  active            Boolean  @default(true)
+  rewardTitle       String   @map("reward_title") // "Cafe gratis"
+  rewardDescription String   @map("reward_description") // "Disfruta un cafe gratis en tu proxima visita"
+  delayMinutes      Int      @default(15) @map("delay_minutes")
+  channel           String   @default("whatsapp") // 'whatsapp' | 'sms' | 'email'
+  expirationDays    Int      @default(14) @map("expiration_days")
+  maxPerMonth       Int?     @map("max_per_month") // NULL = unlimited
+  minRating         Int      @default(4) @map("min_rating")
+  couponDesign      Json     @default("{}") @map("coupon_design") // colors, image, etc.
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  location Location       @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  coupons  RewardCoupon[]
+
+  @@index([locationId])
+  @@map("reward_configs")
+}
+
+model RewardCoupon {
+  id                String    @id @default(uuid())
+  configId          String    @map("config_id")
+  locationId        String    @map("location_id")
+  feedbackId        String    @map("feedback_id")
+  contactId         String?   @map("contact_id")
+  code              String    @unique
+  rewardTitle       String    @map("reward_title")
+  rewardDescription String    @map("reward_description")
+  status            String    @default("pending") // 'pending' | 'sent' | 'redeemed' | 'expired'
+  sendAt            DateTime  @map("send_at") // Scheduled send time
+  sentAt            DateTime? @map("sent_at")
+  redeemedAt        DateTime? @map("redeemed_at")
+  expiresAt         DateTime? @map("expires_at")
+  channel           String    // 'whatsapp' | 'sms' | 'email'
+  metadata          Json      @default("{}")
+  createdAt         DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  config   RewardConfig @relation(fields: [configId], references: [id], onDelete: Cascade)
+
+  @@index([locationId, status])
+  @@index([sendAt])
+  @@index([code])
+  @@map("reward_coupons")
+}
+
+// ============================================
+// REFERRAL PROGRAM
+// ============================================
+
+model ReferralProgram {
+  id              String   @id @default(uuid())
+  locationId      String   @map("location_id")
+  active          Boolean  @default(true)
+  name            String   // "Recomienda y Gana"
+  rewardReferrer  String   @map("reward_referrer") // "20% descuento en tu proxima visita"
+  rewardReferred  String   @map("reward_referred") // "15% descuento en tu primera visita"
+  delayDays       Int      @default(7) @map("delay_days") // Days after feedback to send invite
+  minRating       Int      @default(4) @map("min_rating")
+  maxReferrals    Int?     @map("max_referrals") // Per person limit, NULL = unlimited
+  expirationDays  Int      @default(60) @map("expiration_days") // Link expiration
+  reminderDays    Int[]    @default([14, 21]) @map("reminder_days") // Send reminders after X days
+  message         String?  // Custom invite message
+  settings        Json     @default("{}")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  location Location       @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  links    ReferralLink[]
+
+  @@index([locationId])
+  @@map("referral_programs")
+}
+
+model ReferralLink {
+  id          String    @id @default(uuid())
+  programId   String    @map("program_id")
+  contactId   String    @map("contact_id")
+  code        String    @unique // Short code for URL
+  clicks      Int       @default(0)
+  conversions Int       @default(0)
+  active      Boolean   @default(true)
+  inviteSentAt DateTime? @map("invite_sent_at")
+  expiresAt   DateTime? @map("expires_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  // Relations
+  program  ReferralProgram @relation(fields: [programId], references: [id], onDelete: Cascade)
+  contact  Contact         @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  events   ReferralEvent[]
+
+  @@index([code])
+  @@index([contactId])
+  @@map("referral_links")
+}
+
+model ReferralEvent {
+  id                String   @id @default(uuid())
+  linkId            String   @map("link_id")
+  type              String   // 'click' | 'signup' | 'conversion' | 'reward_sent'
+  referredName      String?  @map("referred_name")
+  referredPhone     String?  @map("referred_phone")
+  referredEmail     String?  @map("referred_email")
+  metadata          Json     @default("{}")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  // Relations
+  link ReferralLink @relation(fields: [linkId], references: [id], onDelete: Cascade)
+
+  @@index([linkId, type])
+  @@map("referral_events")
 }
