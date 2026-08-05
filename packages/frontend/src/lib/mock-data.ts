@@ -8,16 +8,26 @@ export const mockLocationConfig = {
   branding: {
     primaryColor: '#2563eb',
     logo: null,
+    showBanner: true,
+    bannerColor: '#2563eb',
+    backgroundColor: '#f0f4ff',
     thankYouTitle: 'Como fue tu experiencia?',
     thankYouSubtitle: 'Tu opinion es muy importante para nosotros',
     positiveMessage:
       'Nos alegra que hayas tenido una excelente experiencia! Te invitamos a compartirla en Google.',
     negativeMessage:
-      'Lamentamos que tu experiencia no haya sido la mejor. Tu feedback nos ayuda a mejorar.',
+      'Gracias por tu feedback. Tomaremos accion para mejorar tu proxima experiencia.',
   },
   settings: {
     reviewGateThreshold: 4,
     notifyEmail: 'admin@clinicasonrisa.com',
+    showNameField: true,
+    showEmailField: true,
+    showPhoneField: true,
+    nameRequired: false,
+    emailRequired: false,
+    phoneRequired: false,
+    marketingConsentText: 'Acepto recibir promociones, novedades y beneficios exclusivos por email o WhatsApp. Puedo darme de baja en cualquier momento.',
   },
   active: true,
 };

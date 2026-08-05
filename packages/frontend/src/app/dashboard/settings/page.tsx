@@ -13,8 +13,20 @@ export default function SettingsPage() {
     notifyOnNegative: true,
     notifyOnPositive: false,
     googleReviewUrl: 'https://g.page/r/example/review',
+    // Branding
+    logoUrl: '',
+    primaryColor: '#2563eb',
+    bannerColor: '#2563eb',
+    backgroundColor: '#f0f4ff',
+    showBanner: true,
+    // Fields
+    showNameField: true,
+    showEmailField: true,
+    showPhoneField: true,
+    // Messages
     positiveMessage: 'Nos alegra que hayas tenido una excelente experiencia! Te invitamos a compartirla en Google.',
-    negativeMessage: 'Gracias por tu feedback. Nuestro equipo ha sido notificado y tomara accion para mejorar.',
+    negativeMessage: 'Gracias por tu feedback. Tomaremos accion para mejorar tu proxima experiencia.',
+    marketingConsentText: 'Acepto recibir promociones, novedades y beneficios exclusivos por email o WhatsApp.',
   });
 
   const handleChange = (field: string, value: string | boolean) => {
@@ -65,6 +77,175 @@ export default function SettingsPage() {
                 onChange={(e) => handleChange('email', e.target.value)}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
               />
+            </div>
+          </div>
+        </div>
+
+        {/* Branding & Apariencia */}
+        <div className="rounded-lg border bg-white p-6 shadow-sm">
+          <h2 className="mb-2 text-lg font-semibold text-gray-900">Apariencia del Formulario</h2>
+          <p className="mb-4 text-sm text-gray-600">
+            Personaliza como se ve el formulario de feedback para tus clientes.
+          </p>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700">
+                URL del Logo
+              </label>
+              <input
+                type="url"
+                value={settings.logoUrl}
+                onChange={(e) => handleChange('logoUrl', e.target.value)}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                placeholder="https://tudominio.com/logo.png"
+              />
+              <p className="mt-1 text-xs text-gray-400">PNG o SVG transparente recomendado</p>
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-700">
+                Color principal
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="color"
+                  value={settings.primaryColor}
+                  onChange={(e) => handleChange('primaryColor', e.target.value)}
+                  className="h-9 w-12 cursor-pointer rounded border border-gray-300"
+                />
+                <input
+                  type="text"
+                  value={settings.primaryColor}
+                  onChange={(e) => handleChange('primaryColor', e.target.value)}
+                  className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm"
+                  placeholder="#2563eb"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Banner */}
+          <div className="mt-4 border-t pt-4">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <label className="text-sm font-medium text-gray-900">Franja superior (Banner)</label>
+                <p className="text-xs text-gray-500">Muestra una franja de color con tu logo en la parte superior del formulario</p>
+              </div>
+              <label className="relative inline-flex cursor-pointer items-center">
+                <input
+                  type="checkbox"
+                  checked={settings.showBanner}
+                  onChange={(e) => handleChange('showBanner', e.target.checked)}
+                  className="peer sr-only"
+                />
+                <div className="peer h-6 w-11 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all peer-checked:bg-brand-600 peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
+              </label>
+            </div>
+
+            {settings.showBanner && (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    Color del banner
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="color"
+                      value={settings.bannerColor}
+                      onChange={(e) => handleChange('bannerColor', e.target.value)}
+                      className="h-9 w-12 cursor-pointer rounded border border-gray-300"
+                    />
+                    <input
+                      type="text"
+                      value={settings.bannerColor}
+                      onChange={(e) => handleChange('bannerColor', e.target.value)}
+                      className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm"
+                      placeholder="#2563eb"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="mb-1 block text-sm font-medium text-gray-700">
+                    Color de fondo
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="color"
+                      value={settings.backgroundColor}
+                      onChange={(e) => handleChange('backgroundColor', e.target.value)}
+                      className="h-9 w-12 cursor-pointer rounded border border-gray-300"
+                    />
+                    <input
+                      type="text"
+                      value={settings.backgroundColor}
+                      onChange={(e) => handleChange('backgroundColor', e.target.value)}
+                      className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm"
+                      placeholder="#f0f4ff"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Preview */}
+            <div className="mt-4 rounded-lg border overflow-hidden">
+              <p className="px-3 py-1.5 bg-gray-50 text-xs font-medium text-gray-500 border-b">Vista previa</p>
+              <div style={{ backgroundColor: settings.backgroundColor }} className="p-4">
+                {settings.showBanner && (
+                  <div
+                    className="rounded-t-lg px-4 py-3 flex items-center justify-center"
+                    style={{ backgroundColor: settings.bannerColor }}
+                  >
+                    {settings.logoUrl ? (
+                      <img src={settings.logoUrl} alt="Logo" className="h-8 w-auto object-contain" />
+                    ) : (
+                      <span className="text-sm font-bold text-white">{settings.businessName}</span>
+                    )}
+                  </div>
+                )}
+                <div className={`bg-white p-4 text-center ${settings.showBanner ? 'rounded-b-lg' : 'rounded-lg'}`}>
+                  <p className="text-sm font-medium text-gray-700">Como fue tu experiencia?</p>
+                  <p className="mt-1 text-lg">☆ ☆ ☆ ☆ ☆</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Campos del formulario */}
+          <div className="mt-4 border-t pt-4">
+            <label className="text-sm font-medium text-gray-900">Campos a solicitar</label>
+            <p className="text-xs text-gray-500 mb-3">Elige que datos pedir al cliente en el formulario</p>
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="field-name"
+                  checked={settings.showNameField}
+                  onChange={(e) => handleChange('showNameField', e.target.checked)}
+                  className="h-4 w-4 rounded border-gray-300 text-brand-600"
+                />
+                <label htmlFor="field-name" className="text-sm text-gray-700">Nombre</label>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="field-email"
+                  checked={settings.showEmailField}
+                  onChange={(e) => handleChange('showEmailField', e.target.checked)}
+                  className="h-4 w-4 rounded border-gray-300 text-brand-600"
+                />
+                <label htmlFor="field-email" className="text-sm text-gray-700">Email</label>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="field-phone"
+                  checked={settings.showPhoneField}
+                  onChange={(e) => handleChange('showPhoneField', e.target.checked)}
+                  className="h-4 w-4 rounded border-gray-300 text-brand-600"
+                />
+                <label htmlFor="field-phone" className="text-sm text-gray-700">WhatsApp / Telefono</label>
+              </div>
             </div>
           </div>
         </div>

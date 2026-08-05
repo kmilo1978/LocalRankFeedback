@@ -12,6 +12,8 @@ interface LocationConfig {
   branding: {
     primaryColor?: string;
     logo?: string;
+    showBanner?: boolean;
+    bannerColor?: string;
     thankYouTitle?: string;
     thankYouSubtitle?: string;
     positiveMessage?: string;
@@ -154,6 +156,8 @@ export default function FeedbackFormPage() {
 
   const primaryColor = config?.branding?.primaryColor || '#2563eb';
   const bgColor = config?.branding?.backgroundColor || '#f9fafb';
+  const bannerColor = config?.branding?.bannerColor || primaryColor;
+  const showBanner = config?.branding?.showBanner !== false;
   const showName = config?.settings?.showNameField !== false;
   const showEmail = config?.settings?.showEmailField !== false;
   const showPhone = config?.settings?.showPhoneField !== false;
@@ -186,11 +190,29 @@ export default function FeedbackFormPage() {
   // ===========================
   if (step === 'result' && result) {
     return (
-      <div className="flex min-h-screen items-center justify-center px-4" style={{ backgroundColor: bgColor }}>
+      <div className="flex min-h-screen flex-col items-center justify-center px-4" style={{ backgroundColor: bgColor }}>
         <div className="w-full max-w-md text-center">
-          <div className="rounded-xl bg-white p-8 shadow-lg">
-            {/* Logo */}
-            {config?.branding?.logo && (
+          {/* Banner + Logo */}
+          {showBanner && (
+            <div
+              className="rounded-t-xl px-6 py-5 flex items-center justify-center"
+              style={{ backgroundColor: bannerColor }}
+            >
+              {config?.branding?.logo ? (
+                <img
+                  src={config.branding.logo}
+                  alt={config.name}
+                  className="h-10 w-auto object-contain"
+                />
+              ) : (
+                <h2 className="text-lg font-bold text-white">{config?.name}</h2>
+              )}
+            </div>
+          )}
+
+          <div className={`bg-white p-8 shadow-lg ${showBanner ? 'rounded-b-xl' : 'rounded-xl'}`}>
+            {/* Logo inside card if no banner */}
+            {!showBanner && config?.branding?.logo && (
               <img
                 src={config.branding.logo}
                 alt={config.name}
@@ -242,12 +264,37 @@ export default function FeedbackFormPage() {
   // FORM: RATING + COMMENT
   // ===========================
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 py-8" style={{ backgroundColor: bgColor }}>
+    <div className="flex min-h-screen flex-col items-center justify-center px-4 py-8" style={{ backgroundColor: bgColor }}>
       <div className="w-full max-w-md">
-        <div className="rounded-xl bg-white p-8 shadow-lg">
-          {/* Logo */}
-          {config?.branding?.logo && (
+        {/* Banner + Logo */}
+        {showBanner && (
+          <div
+            className="rounded-t-xl px-6 py-5 flex items-center justify-center"
+            style={{ backgroundColor: bannerColor }}
+          >
+            {config?.branding?.logo ? (
+              <img
+                src={config.branding.logo}
+                alt={config.name}
+                className="h-12 w-auto object-contain"
+              />
+            ) : (
+              <h2 className="text-lg font-bold text-white">{config?.name}</h2>
+            )}
+          </div>
+        )}
+
+        <div className={`bg-white p-8 shadow-lg ${showBanner ? 'rounded-b-xl' : 'rounded-xl'}`}>
+          {/* Logo inside card if no banner */}
+          {!showBanner && config?.branding?.logo && (
             <div className="mb-5 text-center">
+              <img
+                src={config.branding.logo}
+                alt={config.name}
+                className="mx-auto h-14 w-auto object-contain"
+              />
+            </div>
+          )}
               <img
                 src={config.branding.logo}
                 alt={config.name}
@@ -264,7 +311,7 @@ export default function FeedbackFormPage() {
             <p className="mt-1 text-sm text-gray-600">
               {config?.branding?.thankYouSubtitle || 'Tu opinion es muy importante para nosotros'}
             </p>
-            {!config?.branding?.logo && (
+            {!config?.branding?.logo && !showBanner && (
               <p className="mt-2 text-xs font-medium" style={{ color: primaryColor }}>
                 {config?.name}
               </p>
