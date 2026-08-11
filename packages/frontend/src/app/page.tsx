@@ -28,11 +28,11 @@ export default function LandingPage() {
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
             Convierte cada visita en<br />
-            <span className="text-blue-600">rese�as de 5 estrellas</span>
+            <span className="text-blue-600">reseñas de 5 estrellas</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-gray-600">
             Captura el feedback de tus pacientes y clientes al salir. Los satisfechos van directo a Google. 
-            Los insatisfechos te llegan a ti por WhatsApp para que los recuperes antes de que publiquen una rese�a negativa.
+            Los insatisfechos te llegan a ti por WhatsApp para que los recuperes antes de que publiquen una reseña negativa.
           </p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
@@ -58,7 +58,7 @@ export default function LandingPage() {
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900">El problema que nadie resuelve</h2>
             <p className="mx-auto mt-4 max-w-2xl text-gray-600">
-              Los negocios locales pierden clientes por rese�as negativas que pudieron evitarse con una simple conversacion a tiempo.
+              Los negocios locales pierden clientes por reseñas negativas que pudieron evitarse con una simple conversacion a tiempo.
             </p>
           </div>
 
@@ -81,7 +81,7 @@ export default function LandingPage() {
               <div className="mb-3 text-3xl">📉</div>
               <h3 className="font-semibold text-gray-900">Sin crecimiento</h3>
               <p className="mt-2 text-sm text-gray-600">
-                Los clientes satisfechos se van sin dejar rese�a. Tu competencia tiene mas reviews y se lleva los nuevos pacientes.
+                Los clientes satisfechos se van sin dejar reseña. Tu competencia tiene mas reviews y se lleva los nuevos pacientes.
               </p>
             </div>
           </div>
@@ -117,7 +117,7 @@ export default function LandingPage() {
               <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-xl font-bold text-green-600">3a</div>
               <h3 className="font-semibold text-gray-900">4-5 estrellas</h3>
               <p className="mt-2 text-sm text-gray-600">
-                Va directo a Google a dejar su rese�a publica. Tu rating sube.
+                Va directo a Google a dejar su reseña publica. Tu rating sube.
               </p>
             </div>
             <div className="text-center">
@@ -142,13 +142,13 @@ export default function LandingPage() {
             <BenefitCard
               icon="⭐"
               stat="+300%"
-              title="Mas rese�as en Google"
-              description="Negocios que usan LocalRank triplican sus rese�as de 5 estrellas en los primeros 60 dias."
+              title="Mas reseñas en Google"
+              description="Negocios que usan LocalRank triplican sus reseñas de 5 estrellas en los primeros 60 dias."
             />
             <BenefitCard
               icon="🛡️"
               stat="85%"
-              title="rese�as negativas evitadas"
+              title="Reseñas negativas evitadas"
               description="Intercepta la insatisfaccion antes de que llegue a Google. Resuelve en privado."
             />
             <BenefitCard
@@ -173,7 +173,7 @@ export default function LandingPage() {
               icon="💰"
               stat="+40%"
               title="Mas clientes nuevos"
-              description="Mejor rating + mas rese�as + referidos = mas pacientes nuevos cada mes."
+              description="Mejor rating + mas reseñas + referidos = mas pacientes nuevos cada mes."
             />
           </div>
         </div>
@@ -188,7 +188,7 @@ export default function LandingPage() {
 
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
             <TestimonialCard
-              quote="En 2 meses pasamos de 12 a 47 rese�as en Google. El rating subio de 3.8 a 4.6. Los pacientes nuevos mencionan que nos encontraron por las rese�as."
+              quote="En 2 meses pasamos de 12 a 47 reseñas en Google. El rating subio de 3.8 a 4.6. Los pacientes nuevos mencionan que nos encontraron por las reseñas."
               name="Dra. Maria Lopez"
               role="Clinica Dental Sonrisa"
               stars={5}
@@ -200,7 +200,7 @@ export default function LandingPage() {
               stars={5}
             />
             <TestimonialCard
-              quote="Antes pediamos rese�as de forma manual y era incomodo. Ahora el QR hace todo el trabajo. Tenemos 4.8 estrellas con 200+ rese�as."
+              quote="Antes pediamos reseñas de forma manual y era incomodo. Ahora el QR hace todo el trabajo. Tenemos 4.8 estrellas con 200+ reseñas."
               name="Andrea Ruiz"
               role="Studio Belleza Integral"
               stars={5}

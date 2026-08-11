@@ -55,7 +55,7 @@ export default function PricingPage() {
               { text: 'QR Code para tu negocio', included: true },
               { text: 'Hasta 200 feedback/mes', included: true },
               { text: 'Logo y colores personalizados', included: true },
-              { text: 'Respuestas IA a rese�as', included: false },
+              { text: 'Respuestas IA a reseñas', included: false },
               { text: 'Programa de referidos', included: false },
               { text: 'WhatsApp masivo', included: false },
               { text: 'Google Ads remarketing', included: false },
@@ -74,7 +74,7 @@ export default function PricingPage() {
             features={[
               { text: 'Hasta 5 sedes', included: true },
               { text: 'Todo lo del plan Starter', included: true },
-              { text: 'Respuestas IA a rese�as de Google', included: true },
+              { text: 'Respuestas IA a reseñas de Google', included: true },
               { text: 'Programa de referidos automatico', included: true },
               { text: 'Envio de WhatsApp y SMS', included: true },
               { text: 'Captura de datos para remarketing', included: true },
@@ -141,7 +141,7 @@ export default function PricingPage() {
             />
             <FaqItem
               question="Que es el Review Gate?"
-              answer="Es el filtro inteligente que decide hacia donde va cada feedback. Si el cliente da 4 o 5 estrellas, lo dirigimos a Google para que deje una rese�a publica. Si da 1 a 3, capturamos su opinion de forma privada y te alertamos para que lo contactes."
+              answer="Es el filtro inteligente que decide hacia donde va cada feedback. Si el cliente da 4 o 5 estrellas, lo dirigimos a Google para que deje una reseña publica. Si da 1 a 3, capturamos su opinion de forma privada y te alertamos para que lo contactes."
             />
             <FaqItem
               question="Puedo cancelar cuando quiera?"
