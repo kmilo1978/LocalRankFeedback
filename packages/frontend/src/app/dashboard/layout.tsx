@@ -11,8 +11,13 @@ const navItems = [
   { href: '/dashboard/rewards', label: 'Cupones', icon: '🎁' },
   { href: '/dashboard/referrals', label: 'Referidos', icon: '🔗' },
   { href: '/dashboard/analytics', label: 'Analytics', icon: '📈' },
+  { href: '/dashboard/reports', label: 'Reportes', icon: '📋' },
+  { href: '/dashboard/notifications', label: 'Notificaciones', icon: '🔔' },
+  { href: '/dashboard/compare', label: 'Comparar sedes', icon: '⚖️' },
   { href: '/dashboard/qr', label: 'QR Code', icon: '📷' },
   { href: '/dashboard/contacts', label: 'Contactos', icon: '👥' },
+  { href: '/dashboard/export', label: 'Exportar', icon: '📥' },
+  { href: '/dashboard/activity', label: 'Actividad', icon: '🕐' },
   { href: '/dashboard/locations', label: 'Sedes', icon: '📍' },
   { href: '/dashboard/settings', label: 'Configuracion', icon: '⚙️' },
 ];
