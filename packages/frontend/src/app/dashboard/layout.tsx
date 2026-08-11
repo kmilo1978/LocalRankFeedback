@@ -6,9 +6,11 @@ import { usePathname } from 'next/navigation';
 const navItems = [
   { href: '/dashboard', label: 'Inicio', icon: '📊' },
   { href: '/dashboard/feedback', label: 'Feedback', icon: '⭐' },
+  { href: '/dashboard/reviews', label: 'Reseñas IA', icon: '🤖' },
   { href: '/dashboard/tickets', label: 'Tickets', icon: '🎫' },
   { href: '/dashboard/rewards', label: 'Cupones', icon: '🎁' },
   { href: '/dashboard/referrals', label: 'Referidos', icon: '🔗' },
+  { href: '/dashboard/analytics', label: 'Analytics', icon: '📈' },
   { href: '/dashboard/qr', label: 'QR Code', icon: '📷' },
   { href: '/dashboard/contacts', label: 'Contactos', icon: '👥' },
   { href: '/dashboard/locations', label: 'Sedes', icon: '📍' },
