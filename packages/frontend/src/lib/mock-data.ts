@@ -29,6 +29,7 @@ export const mockLocationConfig = {
     phoneRequired: false,
     marketingConsentText: 'Acepto recibir promociones, novedades y beneficios exclusivos por email o WhatsApp. Puedo darme de baja en cualquier momento.',
     platformMode: 'buttons', // 'buttons' | 'single' | 'rotation'
+    language: 'es', // 'es' | 'en' | 'pt'
   },
   active: true,
 };

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ThemeProvider, useTheme } from '@/lib/theme-context';
 
 const navItems = [
   { href: '/dashboard', label: 'Inicio', icon: '📊' },
@@ -37,12 +38,13 @@ export default function DashboardLayout({
   };
 
   return (
-    <div className="flex min-h-screen">
+    <ThemeProvider>
+    <div className="flex min-h-screen dark:bg-gray-900">
       {/* Sidebar */}
-      <aside className="flex w-64 flex-col border-r border-gray-200 bg-white">
+      <aside className="flex w-64 flex-col border-r border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
         {/* Brand */}
-        <div className="border-b border-gray-200 p-4">
-          <Link href="/dashboard" className="text-lg font-bold text-gray-900">
+        <div className="border-b border-gray-200 dark:border-gray-700 p-4">
+          <Link href="/dashboard" className="text-lg font-bold text-gray-900 dark:text-white">
             LocalRank <span className="text-brand-600">Feedback</span>
           </Link>
         </div>
@@ -57,8 +59,8 @@ export default function DashboardLayout({
                 href={item.href}
                 className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition ${
                   isActive
-                    ? 'bg-brand-50 text-brand-700'
-                    : 'text-gray-700 hover:bg-gray-100'
+                    ? 'bg-brand-50 text-brand-700 dark:bg-blue-900 dark:text-blue-200'
+                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
                 }`}
               >
                 <span>{item.icon}</span>
@@ -69,10 +71,11 @@ export default function DashboardLayout({
         </nav>
 
         {/* Logout */}
-        <div className="border-t border-gray-200 p-3">
+        <div className="border-t border-gray-200 dark:border-gray-700 p-3 space-y-1">
+          <ThemeToggle />
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
+            className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <span>🚪</span>
             Cerrar sesion
@@ -81,9 +84,23 @@ export default function DashboardLayout({
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 bg-gray-50">
+      <main className="flex-1 bg-gray-50 dark:bg-gray-900">
         <div className="p-6">{children}</div>
       </main>
     </div>
+    </ThemeProvider>
+  );
+}
+
+function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+  return (
+    <button
+      onClick={toggleTheme}
+      className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition hover:bg-gray-100 dark:hover:bg-gray-700"
+    >
+      <span>{theme === 'light' ? '🌙' : '☀️'}</span>
+      {theme === 'light' ? 'Modo oscuro' : 'Modo claro'}
+    </button>
   );
 }
