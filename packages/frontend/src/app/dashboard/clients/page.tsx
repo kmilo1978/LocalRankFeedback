@@ -216,18 +216,89 @@ export default function ClientsPage() {
 
       {/* Add client modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setShowAddModal(false)}>
-          <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 overflow-y-auto py-8" onClick={() => setShowAddModal(false)}>
+          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl" onClick={(e) => e.stopPropagation()}>
             <h2 className="text-lg font-bold text-gray-900">Agregar nuevo cliente</h2>
-            <p className="mt-1 text-sm text-gray-600">Registra un negocio nuevo en tu cuenta de agencia</p>
-            <div className="mt-5 space-y-3">
-              <div><label className="mb-1 block text-xs font-medium text-gray-700">Nombre del negocio *</label><input type="text" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" placeholder="Clinica Dental Ejemplo" /></div>
-              <div><label className="mb-1 block text-xs font-medium text-gray-700">Industria</label><select className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"><option>Clinica Dental</option><option>Fisioterapia</option><option>Estetica</option><option>Gimnasio</option><option>Restaurante</option><option>Veterinaria</option><option>Otro</option></select></div>
-              <div><label className="mb-1 block text-xs font-medium text-gray-700">Contacto principal *</label><input type="text" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" placeholder="Nombre del responsable" /></div>
-              <div><label className="mb-1 block text-xs font-medium text-gray-700">Email *</label><input type="email" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" placeholder="contacto@negocio.com" /></div>
-              <div><label className="mb-1 block text-xs font-medium text-gray-700">WhatsApp</label><input type="tel" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" placeholder="+57 300 000 0000" /></div>
-              <div><label className="mb-1 block text-xs font-medium text-gray-700">Plan</label><select className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"><option>Starter ($49/mes)</option><option>Growth ($99/mes)</option></select></div>
+            <p className="mt-1 text-sm text-gray-600">Registra un negocio y personaliza sus servicios</p>
+
+            <div className="mt-5 space-y-4">
+              {/* Basic info */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="col-span-2"><label className="mb-1 block text-xs font-medium text-gray-700">Nombre del negocio *</label><input type="text" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" placeholder="Clinica Dental Ejemplo" /></div>
+                <div><label className="mb-1 block text-xs font-medium text-gray-700">Industria</label><select className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"><option>Clinica Dental</option><option>Fisioterapia</option><option>Estetica</option><option>Gimnasio</option><option>Restaurante</option><option>Veterinaria</option><option>Otro</option></select></div>
+                <div><label className="mb-1 block text-xs font-medium text-gray-700">Sedes</label><input type="number" defaultValue={1} min={1} className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" /></div>
+              </div>
+
+              {/* Contact */}
+              <div className="grid grid-cols-2 gap-3">
+                <div><label className="mb-1 block text-xs font-medium text-gray-700">Contacto *</label><input type="text" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" placeholder="Nombre responsable" /></div>
+                <div><label className="mb-1 block text-xs font-medium text-gray-700">Email *</label><input type="email" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" placeholder="email@negocio.com" /></div>
+                <div><label className="mb-1 block text-xs font-medium text-gray-700">WhatsApp</label><input type="tel" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" placeholder="+57 300 000 0000" /></div>
+                <div><label className="mb-1 block text-xs font-medium text-gray-700">Sitio web</label><input type="url" className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" placeholder="https://..." /></div>
+              </div>
+
+              {/* Plan + Trial */}
+              <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+                <label className="mb-2 block text-sm font-medium text-gray-900">Plan y facturacion</label>
+                <div className="grid grid-cols-3 gap-2 mb-3">
+                  {[
+                    { id: 'trial', label: 'Trial gratis', price: '$0', desc: '14 dias' },
+                    { id: 'starter', label: 'Starter', price: '$49/mes', desc: 'Basico' },
+                    { id: 'growth', label: 'Growth', price: '$99/mes', desc: 'Completo' },
+                  ].map((p) => (
+                    <label key={p.id} className="flex flex-col items-center rounded-lg border-2 border-gray-200 bg-white p-2 cursor-pointer hover:border-blue-400 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50">
+                      <input type="radio" name="plan" value={p.id} defaultChecked={p.id === 'trial'} className="sr-only" />
+                      <span className="text-xs font-bold text-gray-900">{p.label}</span>
+                      <span className="text-sm font-bold text-blue-600">{p.price}</span>
+                      <span className="text-xs text-gray-500">{p.desc}</span>
+                    </label>
+                  ))}
+                </div>
+                <div className="flex items-center gap-2 text-xs text-blue-700">
+                  <span>ℹ️</span>
+                  <span>Trial: 14 dias gratis con todas las funciones. Se puede convertir a plan pago despues.</span>
+                </div>
+              </div>
+
+              {/* Custom package - services */}
+              <div className="rounded-lg border p-4">
+                <label className="mb-2 block text-sm font-medium text-gray-900">Personalizar paquete de servicios</label>
+                <p className="mb-3 text-xs text-gray-500">Activa o desactiva modulos para este cliente</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { id: 'feedback', label: 'Feedback + Review Gate', default: true },
+                    { id: 'notifications', label: 'Alertas WhatsApp/Email', default: true },
+                    { id: 'multiPlatform', label: 'Multi-plataforma', default: true },
+                    { id: 'qr', label: 'QR Code personalizado', default: true },
+                    { id: 'coupons', label: 'Cupones de recompensa', default: true },
+                    { id: 'referrals', label: 'Programa de referidos', default: true },
+                    { id: 'aiResponses', label: 'Respuestas IA a reseñas', default: true },
+                    { id: 'reports', label: 'Reportes semanales', default: false },
+                    { id: 'analytics', label: 'Analytics avanzado', default: false },
+                    { id: 'export', label: 'Exportar contactos', default: false },
+                  ].map((s) => (
+                    <label key={s.id} className="flex items-center gap-2 rounded-md border border-gray-200 p-2 cursor-pointer hover:bg-gray-50">
+                      <input type="checkbox" defaultChecked={s.default} className="h-3.5 w-3.5 rounded border-gray-300 text-blue-600" />
+                      <span className="text-xs text-gray-700">{s.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Custom limits */}
+              <div className="rounded-lg border p-4">
+                <label className="mb-2 block text-sm font-medium text-gray-900">Limites personalizados</label>
+                <div className="grid grid-cols-3 gap-3">
+                  <div><label className="mb-1 block text-xs text-gray-500">Feedback/mes</label><input type="number" defaultValue={500} className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm" /></div>
+                  <div><label className="mb-1 block text-xs text-gray-500">SMS/mes</label><input type="number" defaultValue={100} className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm" /></div>
+                  <div><label className="mb-1 block text-xs text-gray-500">Cupones/mes</label><input type="number" defaultValue={50} className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm" /></div>
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div><label className="mb-1 block text-xs font-medium text-gray-700">Notas internas</label><textarea className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm" rows={2} placeholder="Notas sobre este cliente (solo visibles para ti)..." /></div>
             </div>
+
             <div className="mt-6 flex gap-3">
               <button onClick={() => setShowAddModal(false)} className="flex-1 rounded-md border border-gray-300 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50">Cancelar</button>
               <button onClick={() => setShowAddModal(false)} className="flex-1 rounded-md bg-blue-600 py-2.5 text-sm font-medium text-white hover:bg-blue-700">Crear cliente</button>
