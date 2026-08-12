@@ -95,12 +95,23 @@ export default function DashboardLayout({
 function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   return (
-    <button
-      onClick={toggleTheme}
-      className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition hover:bg-gray-100 dark:hover:bg-gray-700"
-    >
-      <span>{theme === 'light' ? '🌙' : '☀️'}</span>
-      {theme === 'light' ? 'Modo oscuro' : 'Modo claro'}
-    </button>
+    <div className="flex items-center justify-between rounded-md px-3 py-2">
+      <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+        <span>{theme === 'light' ? '☀️' : '🌙'}</span>
+        <span>{theme === 'light' ? 'Dia' : 'Noche'}</span>
+      </div>
+      <button
+        onClick={toggleTheme}
+        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+          theme === 'dark' ? 'bg-blue-600' : 'bg-gray-300'
+        }`}
+      >
+        <span
+          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+            theme === 'dark' ? 'translate-x-6' : 'translate-x-1'
+          }`}
+        />
+      </button>
+    </div>
   );
 }
