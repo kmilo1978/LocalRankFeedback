@@ -22,6 +22,7 @@ const navItems = [
   { href: '/dashboard/activity', label: 'Actividad', icon: '🕐' },
   { href: '/dashboard/locations', label: 'Sedes', icon: '📍' },
   { href: '/dashboard/settings', label: 'Configuracion', icon: '⚙️' },
+  { href: '/dashboard/security', label: 'Seguridad', icon: '🔐' },
   { href: '/dashboard/settings/ai', label: 'IA Providers', icon: '🧠' },
 ];
 
