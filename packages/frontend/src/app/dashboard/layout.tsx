@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ThemeProvider, useTheme } from '@/lib/theme-context';
+import { useState, useEffect } from 'react';
 
 const navItems = [
   { href: '/dashboard', label: 'Inicio', icon: '📊' },
@@ -23,12 +23,28 @@ const navItems = [
   { href: '/dashboard/settings', label: 'Configuracion', icon: '⚙️' },
 ];
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [dark, setDark] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') {
+      setDark(true);
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleDark = () => {
+    const next = !dark;
+    setDark(next);
+    localStorage.setItem('theme', next ? 'dark' : 'light');
+    if (next) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
@@ -38,19 +54,18 @@ export default function DashboardLayout({
   };
 
   return (
-    <ThemeProvider>
-    <div className="flex min-h-screen dark:bg-gray-900">
+    <div className={`flex min-h-screen ${dark ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Sidebar */}
-      <aside className="flex w-64 flex-col border-r border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+      <aside className={`flex w-64 flex-col border-r ${dark ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
         {/* Brand */}
-        <div className="border-b border-gray-200 dark:border-gray-700 p-4">
-          <Link href="/dashboard" className="text-lg font-bold text-gray-900 dark:text-white">
-            LocalRank <span className="text-brand-600">Feedback</span>
+        <div className={`border-b p-4 ${dark ? 'border-gray-700' : 'border-gray-200'}`}>
+          <Link href="/dashboard" className={`text-lg font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>
+            LocalRank <span className="text-blue-500">Feedback</span>
           </Link>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 space-y-1 p-3">
+        <nav className="flex-1 space-y-1 overflow-y-auto p-3">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
             return (
@@ -59,8 +74,8 @@ export default function DashboardLayout({
                 href={item.href}
                 className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition ${
                   isActive
-                    ? 'bg-brand-50 text-brand-700 dark:bg-blue-900 dark:text-blue-200'
-                    : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
+                    ? dark ? 'bg-blue-900 text-blue-200' : 'bg-blue-50 text-blue-700'
+                    : dark ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 <span>{item.icon}</span>
@@ -70,12 +85,33 @@ export default function DashboardLayout({
           })}
         </nav>
 
-        {/* Logout */}
-        <div className="border-t border-gray-200 dark:border-gray-700 p-3 space-y-1">
-          <ThemeToggle />
+        {/* Bottom: Theme + Logout */}
+        <div className={`border-t p-3 space-y-2 ${dark ? 'border-gray-700' : 'border-gray-200'}`}>
+          {/* Dark mode switch */}
+          <div className="flex items-center justify-between px-3 py-2">
+            <span className={`text-sm ${dark ? 'text-gray-300' : 'text-gray-700'}`}>
+              {dark ? '🌙 Noche' : '☀️ Dia'}
+            </span>
+            <button
+              onClick={toggleDark}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
+                dark ? 'bg-blue-600' : 'bg-gray-300'
+              }`}
+              aria-label="Toggle dark mode"
+            >
+              <span
+                className={`inline-block h-4 w-4 rounded-full bg-white shadow transform transition-transform duration-200 ${
+                  dark ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+
           <button
             onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition hover:bg-gray-100 dark:hover:bg-gray-700"
+            className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition ${
+              dark ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'
+            }`}
           >
             <span>🚪</span>
             Cerrar sesion
@@ -84,34 +120,9 @@ export default function DashboardLayout({
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 bg-gray-50 dark:bg-gray-900">
+      <main className={`flex-1 ${dark ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
         <div className="p-6">{children}</div>
       </main>
-    </div>
-    </ThemeProvider>
-  );
-}
-
-function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
-  return (
-    <div className="flex items-center justify-between rounded-md px-3 py-2">
-      <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-        <span>{theme === 'light' ? '☀️' : '🌙'}</span>
-        <span>{theme === 'light' ? 'Dia' : 'Noche'}</span>
-      </div>
-      <button
-        onClick={toggleTheme}
-        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-          theme === 'dark' ? 'bg-blue-600' : 'bg-gray-300'
-        }`}
-      >
-        <span
-          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-            theme === 'dark' ? 'translate-x-6' : 'translate-x-1'
-          }`}
-        />
-      </button>
     </div>
   );
 }
